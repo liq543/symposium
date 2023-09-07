@@ -1,37 +1,27 @@
+// Requires the Apollo server for GraphQL
 const { gql } = require('apollo-server-express');
 
+// Establishes all typeDefs in GraphQL (Schemas, Authentication, Queries, and Mutations)
 const typeDefs = gql`
-  type Category {
-    _id: ID
-    name: String
-  }
-
-  type Product {
-    _id: ID
-    name: String
-    description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
-  }
-
-  type Order {
-    _id: ID
-    purchaseDate: String
-    products: [Product]
-  }
-
   type User {
     _id: ID
-    firstName: String
-    lastName: String
+    username: String
     email: String
-    orders: [Order]
+    password: String
+    playlists: [Playlist]
   }
 
-  type Checkout {
-    session: ID
+  type Playlist {
+    _id: ID
+    playlistName: String
+    songs: [Song]
+  }
+
+  type Song {
+    _id: ID
+    title: String
+    artist: String
+    album: String
   }
 
   type Auth {
@@ -40,20 +30,20 @@ const typeDefs = gql`
   }
 
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
     user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
+    playlists: [Playlist]
+    playlist(_id: ID!): Playlist
+    songs(title: String, artist: String, album: String): [Song]
+    song(_id: ID!): Song
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    updateUser(username: String, email: String, password: String): User
+    addPlaylist(playlistName: String!): Playlist
+    updatePlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
+    deletePlaylist(_id: ID!): Playlist
   }
 `;
 
