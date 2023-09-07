@@ -4,7 +4,7 @@ import 'tailwindcss/tailwind.css';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
 import MainView from './Components/MainView';
-import Footer from './Components/Footer';
+import MediaPlayer from './Components/MediaPlayer';
 
 const App = () => {
     return (
@@ -14,7 +14,8 @@ const App = () => {
                 <Sidebar />
                 <MainView />
             </div>
-            <Footer />
+            {/* Media Player */}
+            <MediaPlayer />
         </div>
     );
 }
