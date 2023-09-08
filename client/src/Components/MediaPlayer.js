@@ -125,23 +125,8 @@ useEffect(() => {
         </button>
       </div>
 
-      {/* Song Progress Bar */}
-      <div className = "w-full mt-4">
-        <Progress value={songProgressPercentage} />
-      </div>
-      {/* Volume Slider */}
-      <div className="flex items-center space-x-4">
-        <span className="material-icons text-gray-400">volume_down</span>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={volume}
-          onChange={(e) => setVolume(e.target.value)}
-          className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
-        />
-        <span className="material-icons text-gray-400">volume_up</span>
-      </div>
+      {/* Spacer */}
+      <div className="w-64"></div>
     </div>
 );
 }
