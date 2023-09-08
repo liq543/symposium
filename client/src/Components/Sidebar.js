@@ -48,7 +48,8 @@ const Sidebar = ({ onSongSelect }) => {
                                 title: song.name,
                                 artist: song.artists[0].name,
                                 albumCover: song.album.images[0].url,
-                                uri: song.uri
+                                uri: song.uri,
+                                duration: song.duration_ms
                             })}
                         >
                             {song.name} - {song.artists[0].name}
