@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react';
 const MediaPlayer = ({ selectedSong }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState(null);
+  const [deviceID, setDeviceID] = useState(null); // This will be set to the device ID of the Spotify Web Player
 
   useEffect(() => {
     // Initialize Spotify Player
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = localStorage.getItem('spotify_access_token'); // Ensure this token is available and valid
       const spotifyPlayer = new Spotify.Player({
-        name: 'Your Web Player Name',
+        name: 'Symposium Web Player',
         getOAuthToken: cb => { cb(token); }
       });
 
@@ -28,13 +29,43 @@ const MediaPlayer = ({ selectedSong }) => {
       // Ready
       spotifyPlayer.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
+        setDeviceID(device_id); // set the device ID
       });
 
       spotifyPlayer.connect();
-      
+
       setPlayer(spotifyPlayer);
     };
   }, []);
+
+  useEffect(() => {
+    if (player && selectedSong) {
+        const songUri = selectedSong.uri;
+        console.log(selectedSong.uri);
+        const token = localStorage.getItem('spotify_access_token'); // Retrieve the stored token
+
+        fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceID}`, {
+            method: 'PUT',
+            body: JSON.stringify({ uris: [songUri] }),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    console.error('Spotify API Response:', err);
+                    throw err;
+                });
+            }
+            console.log('Playing:', selectedSong.title);
+        })
+        .catch(error => {
+            console.error("Error playing song:", error);
+        });
+    }
+}, [player, selectedSong, deviceID]);
 
   const playPause = () => {
     if (isPlaying) {

@@ -20,8 +20,9 @@ const App = () => {
     const [selectedSong, setSelectedSong] = useState(null); // Song structure can be { title, artist, albumCover }
 
     const handleSongSelect = (song) => {
-        setSelectedSong(song);
-    };
+      console.log('Received song in App.js:', song);
+      setSelectedSong(song);
+  };
 
     return (
         <div style={{ backgroundColor: '#2C2A4A' }} className="min-h-screen text-white">
