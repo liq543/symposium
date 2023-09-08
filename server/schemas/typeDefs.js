@@ -31,6 +31,7 @@ const typeDefs = gql`
     album: String
 }
 
+
   type Auth {
     token: ID
     user: User
