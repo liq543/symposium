@@ -7,6 +7,7 @@ const MediaPlayer = ({ selectedSong }) => {
   const [deviceID, setDeviceID] = useState(null); // This will be set to the device ID of the Spotify Web Player
   const [volume, setVolume] = useState(50); // Initialize volume 
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
 
   useEffect(() => {
     // Initialize Spotify Player
@@ -20,12 +21,12 @@ const MediaPlayer = ({ selectedSong }) => {
       // Error handling
       spotifyPlayer.addListener('initialization_error', ({ message }) => { console.error(message); });
       spotifyPlayer.addListener('authentication_error', ({ message }) => { console.error(message); });
-      spotifyPlayer.addListener('account_error', ({ message }) => { console.error(message); });
       spotifyPlayer.addListener('playback_error', ({ message }) => { console.error(message); });
 
       // Playback status updates
       spotifyPlayer.addListener('player_state_changed', state => {
         setIsPlaying(!state.paused);
+        setCurrentPlaybackTime(state.position / 1000);
       });
 
       // Ready
@@ -129,6 +130,21 @@ const MediaPlayer = ({ selectedSong }) => {
           className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
         />
         <span className="material-icons text-gray-400">volume_up</span>
+      </div>
+
+            {/* Progress Bar */}
+            <div className="flex items-center space-x-2">
+        <div className="w-full h-2 bg-gray-300 rounded-full">
+          <div
+            className="h-2 bg-DABFFF rounded-full"
+            style={{ width: `${(currentPlaybackTime / totalDuration) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+
+      {/* Playback Time */}
+      <div className="text-gray-400 text-sm">
+        {formatTime(currentPlaybackTime)} / {formatTime(totalDuration)}
       </div>
 
       {/* Spacer */}
