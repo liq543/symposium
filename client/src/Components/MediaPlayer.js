@@ -5,7 +5,8 @@ const MediaPlayer = ({ selectedSong }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState(null);
   const [deviceID, setDeviceID] = useState(null); // This will be set to the device ID of the Spotify Web Player
-
+  const [volume, setVolume] = useState(50); // Initialize volume 
+  const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
   useEffect(() => {
     // Initialize Spotify Player
     window.onSpotifyWebPlaybackSDKReady = () => {
@@ -24,6 +25,7 @@ const MediaPlayer = ({ selectedSong }) => {
       // Playback status updates
       spotifyPlayer.addListener('player_state_changed', state => {
         setIsPlaying(!state.paused);
+        setCurrentPlaybackTime(state.position / 1000);
       });
 
       // Ready
@@ -37,6 +39,12 @@ const MediaPlayer = ({ selectedSong }) => {
       setPlayer(spotifyPlayer);
     };
   }, []);
+
+useEffect(() => {
+    if (player) {
+      player.setVolume(volume / 100); // Set the volume
+    }
+}, [player, volume]);
 
   useEffect(() => {
     if (player && selectedSong) {
@@ -83,6 +91,14 @@ const MediaPlayer = ({ selectedSong }) => {
     player.previousTrack();
   };
 
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
+  const songProgressPercentage = selectedSong ? (currentPlaybackTime / selectedSong.duration) * 100 : 0;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4" style={{ backgroundColor: '#4F518C' }}>
         {/* Album Cover and Song Details */}
@@ -95,7 +111,7 @@ const MediaPlayer = ({ selectedSong }) => {
         </div>
 
       {/* Media Controls */}
-      <div className="flex items-center space-x-4 mx-auto">
+      <div className="flex items-center space-x-4">
         <button className="p-2 hover:bg-DABFFF rounded-full" onClick={skipToPrevious}>
           <span className="material-icons text-white">skip_previous</span>
         </button>
@@ -109,10 +125,25 @@ const MediaPlayer = ({ selectedSong }) => {
         </button>
       </div>
 
-      {/* Spacer */}
-      <div className="w-64"></div>
+      {/* Song Progress Bar */}
+      <div className = "w-full mt-4">
+        <Progress value={songProgressPercentage} />
+      </div>
+      {/* Volume Slider */}
+      <div className="flex items-center space-x-4">
+        <span className="material-icons text-gray-400">volume_down</span>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={volume}
+          onChange={(e) => setVolume(e.target.value)}
+          className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
+        />
+        <span className="material-icons text-gray-400">volume_up</span>
+      </div>
     </div>
-  );
+);
 }
 
 export default MediaPlayer;
