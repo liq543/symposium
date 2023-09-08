@@ -2,7 +2,6 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Playlist, Song } = require('../models');
 const { signToken } = require('../utils/auth');
-// const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 // Establishes all resolvers based on the typeDefs in greater detail
 const resolvers = {
@@ -47,36 +46,15 @@ const resolvers = {
     },
   },
   Mutation: {
+    // Creates a new user and passes in their authentication token
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
 
       return { token, user };
     },
-    addOrder: async (parent, { products }, context) => {
-      console.log(context);
-      if (context.user) {
-        const order = new Order({ products });
-
-        await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
-
-        return order;
-      }
-
-      throw new AuthenticationError('Not logged in');
-    },
-    updateUser: async (parent, args, context) => {
-      if (context.user) {
-        return await User.findByIdAndUpdate(context.user._id, args, { new: true });
-      }
-
-      throw new AuthenticationError('Not logged in');
-    },
-    updateProduct: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
-
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
-    },
+    
+    // Login process that checks the user's credentials against their token
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -93,7 +71,63 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
+
+    // Updates the user's credentials (username and/or email and/or password) while they're logged in
+    updateUser: async (parent, args, context) => {
+      if (context.user) {
+        return await User.findByIdAndUpdate(context.user._id, args, { new: true });
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+
+    // Creates a playlist while the user is logged in
+    addPlaylist: async (parent, args, context) => {
+      if (context.user) {
+        return await Playlist.create(args);
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+
+    // Updates a playlist's name by it's ID while the user is logged in
+    updatePlaylistName: async (parent, { _id, playlistName }, context) => {
+      if (context.user) {
+        return await Playlist.findByIdAndUpdate(_id, { $rename: { playlistName } });
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+
+    // Adds a track to the end of a playlist by its ID while the user is logged in
+    addSongToPlaylist: async (parent, { _id, song }, context) => {
+      if (context.user) {
+        return await Playlist.findByIdAndUpdate(_id, { $push: [song] });
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+
+    // Removes a track from the playlist by its ID while the user is logged in
+    removeSongFromPlaylist: async (parent, { _id, song }, context) => {
+      const songIndex = song.index;
+
+      if (context.user) {
+        return await Playlist.findByIdAndUpdate(_id, { $pull: song[songIndex] });
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
+
+    // Deletes a playlist while the user is logged in
+    deletePlaylist: async (parent, args, context) => {
+      if (context.user) {
+        return await Playlist.deleteOne(args);
+      }
+
+      throw new AuthenticationError('Not logged in');
+    },
   }
 };
 

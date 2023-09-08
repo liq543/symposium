@@ -42,7 +42,9 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     updateUser(username: String, email: String, password: String): User
     addPlaylist(playlistName: String!): Playlist
-    updatePlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
+    updatePlaylistName(_id: ID!, playlistName: String!): Playlist
+    addSongToPlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
+    removeSongFromPlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
     deletePlaylist(_id: ID!): Playlist
   }
 `;
