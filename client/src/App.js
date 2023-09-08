@@ -42,6 +42,7 @@ const App = () => {
             <MediaPlayer selectedSong={selectedSong} />
         </div>
     );
+
 }
 
 export default App;
