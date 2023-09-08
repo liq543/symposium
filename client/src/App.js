@@ -12,27 +12,27 @@ const DefaultRedirector = () => {
   React.useEffect(() => {
     navigate('/player');
   }, [navigate]);
-  
+
   return null; // this component doesn't render anything visibly
 }
 
 const App = () => {
   return (
     <div style={{ backgroundColor: '#2C2A4A' }} className="min-h-screen text-white">
-        <Router>
-            <Routes>
-              <Route path="/callback" element={<AuthCallback />} />
-              <Route path="/player" element={<MediaPlayer />} />
-              <Route path="*" element={<DefaultRedirector />} />
-            </Routes>
-        </Router>
-        <Header />
-        <div className="flex mt-10 px-8">
-            <Sidebar />
-            <MainView />
-        </div>
-        {/* Media Player */}
-        <MediaPlayer />
+      <Router>
+        <Routes>
+          <Route path="/callback" element={<AuthCallback />} />
+          <Route path="/player" element={<MediaPlayer />} />
+          <Route path="*" element={<DefaultRedirector />} />
+        </Routes>
+      </Router>
+      <Header />
+      <div className="flex mt-10 px-8">
+        <Sidebar />
+        <MainView />
+      </div>
+      {/* Media Player */}
+      <MediaPlayer />
     </div>
   );
 }
