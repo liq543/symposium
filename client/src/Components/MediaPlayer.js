@@ -5,7 +5,7 @@ const MediaPlayer = ({ selectedSong }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState(null);
   const [deviceID, setDeviceID] = useState(null); // This will be set to the device ID of the Spotify Web Player
-  const [volume, setVolume] = useState(50); // Initialize volume
+  const [volume, setVolume] = useState(100); // Initialize volume
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
   const playbackTimeRef = useRef(0);
   useEffect(() => {
@@ -136,57 +136,57 @@ const handleProgressBarClick = (e) => {
 
 const songProgressPercentage = selectedSong ? (currentPlaybackTime / selectedSong.duration) * 100 : 0;
 
-  return (
-    <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4" style={{ backgroundColor: '#4F518C' }}>
+return (
+  <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4" style={{ backgroundColor: '#4F518C' }}>
       {/* Album Cover and Song Details */}
       <div className="flex items-center space-x-4">
-        <img src={selectedSong ? selectedSong.albumCover : '/default_cover.jpg'} alt="Album Cover" className="w-12 h-12 rounded-md" />
-        <div>
-          <h4 className="text-white font-medium">{selectedSong ? selectedSong.title : 'No Song Selected'}</h4>
-          <p className="text-gray-400">{selectedSong ? selectedSong.artist : 'Select a song'}</p>
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      <div className="relative w-full h-2 mt-2 mb-4 bg-gray-600 rounded"
-      onClick={handleProgressBarClick}
-      >
-        <div className="absolute top-0 left-0 h-2 bg-white rounded" style={{ width: `${songProgressPercentage}%` }}></div>
-        <div className="absolute top-0 right-0 text-gray-400" style={{ fontSize: '0.7rem' }}>
-          {formatTime(currentPlaybackTime)}/{selectedSong ? formatTime(selectedSong.duration) : '0:00'}
-        </div>
+          <img src={selectedSong ? selectedSong.albumCover : '/default_cover.jpg'} alt="Album Cover" className="w-12 h-12 rounded-md" />
+          <div>
+              <h4 className="text-white font-medium">{selectedSong ? selectedSong.title : 'No Song Selected'}</h4>
+              <p className="text-gray-400">{selectedSong ? selectedSong.artist : 'Select a song'}</p>
+          </div>
       </div>
 
       {/* Media Controls */}
       <div className="flex items-center space-x-4">
-        <button className="p-2 hover:bg-DABFFF rounded-full" onClick={skipToPrevious}>
-          <span className="material-icons text-white">skip_previous</span>
-        </button>
+          <button className="p-2 hover:bg-DABFFF rounded-full" onClick={skipToPrevious}>
+              <span className="material-icons text-white">skip_previous</span>
+          </button>
 
-        <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
-          <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
-        </button>
+          <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
+              <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
+          </button>
 
-        <button className="p-2 hover:bg-DABFFF rounded-full" onClick={skipToNext}>
-          <span className="material-icons text-white">skip_next</span>
-        </button>
+          <button className="p-2 hover:bg-DABFFF rounded-full" onClick={skipToNext}>
+              <span className="material-icons text-white">skip_next</span>
+          </button>
       </div>
+
+      {/* Progress Bar */}
+      <div className="flex items-center w-3/4 mt-2 mb-4">
+    <div className="relative w-full h-2 bg-gray-600 rounded" onClick={handleProgressBarClick}>
+        <div className="absolute top-0 left-0 h-2 bg-white rounded" style={{ width: `${songProgressPercentage}%` }}></div>
+    </div>
+    <div className="ml-2 text-gray-400" style={{ fontSize: '0.7rem' }}>
+        {formatTime(currentPlaybackTime)}/{selectedSong ? formatTime(selectedSong.duration) : '0:00'}
+    </div>
+</div>
 
       {/* Volume Slider */}
       <div className="flex items-center space-x-4">
-        <span className="material-icons text-gray-400">volume_down</span>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={volume}
-          onChange={e => setVolume(e.target.value)}
-          className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
-        />
-        <span className="material-icons text-gray-400">volume_up</span>
+          <span className="material-icons text-gray-400">volume_down</span>
+          <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={e => setVolume(e.target.value)}
+              className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
+          />
+          <span className="material-icons text-gray-400">volume_up</span>
       </div>
-    </div>
-  );
+  </div>
+);
 };
 
 export default MediaPlayer;
