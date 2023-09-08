@@ -2,10 +2,12 @@
 const db = require('./connection');
 const { User, Playlist, Song } = require('../models');
 
-// 
+// Seeds the database once the connection is open
 db.once('open', async () => {
+  // Remove all songs
   await Song.deleteMany();
 
+  // Insert default songs into the database
   const songs = await Song.insertMany([
     {  
       title: 'Bohemian Rhapsody',
@@ -34,10 +36,13 @@ db.once('open', async () => {
     },
   ]);
 
+  // Show in the console that the songs are seeded to the database
   console.log('Songs seeded!');
 
+  // Remove all playlists
   await Playlist.deleteMany();
 
+  // Create a default playlist for the default user
   const playlists = await Playlist.insertMany([
     {
       playlistName: 'Playlist01',
@@ -56,10 +61,13 @@ db.once('open', async () => {
     }
   ]);
 
+  // Show in the console that the playlist is seeded to the database
   console.log('Playlists seeded');
 
+  // Remove all users
   await User.deleteMany();
 
+  // Create a default user with their credentials
   await User.create({
     username: 'TestUser123',
     email: 'testuser@email.com',
@@ -67,6 +75,7 @@ db.once('open', async () => {
     playlists: ['Playlist01']
   });
 
+  // Show in the console that the user is seeded to the database
   console.log('users seeded');
 
   process.exit();
