@@ -24,6 +24,13 @@ const typeDefs = gql`
     album: String
   }
 
+  input SongInput {
+    _id: ID
+    title: String
+    artist: String
+    album: String
+  }
+
   type Auth {
     token: ID
     user: User
@@ -43,8 +50,8 @@ const typeDefs = gql`
     updateUser(username: String, email: String, password: String): User
     addPlaylist(playlistName: String!): Playlist
     updatePlaylistName(_id: ID!, playlistName: String!): Playlist
-    addSongToPlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
-    removeSongFromPlaylist(_id: ID!, playlistName: String, songs: [Song]): Playlist
+    addSongToPlaylist(_id: ID!, playlistName: String, songs: [SongInput]): Playlist
+    removeSongFromPlaylist(_id: ID!, playlistName: String, songs: [SongInput]): Playlist
     deletePlaylist(_id: ID!): Playlist
   }
 `;

@@ -101,20 +101,26 @@ const resolvers = {
     },
 
     // Adds a track to the end of a playlist by its ID while the user is logged in
-    addSongToPlaylist: async (parent, { _id, song }, context) => {
+    addSongToPlaylist: async (parent, { _id, songs }, context) => {
       if (context.user) {
-        return await Playlist.findByIdAndUpdate(_id, { $push: [song] });
+        return await Playlist.findByIdAndUpdate(
+          { _id: _id  }, 
+          { $push: songs }
+        );
       }
 
       throw new AuthenticationError('Not logged in');
     },
 
     // Removes a track from the playlist by its ID while the user is logged in
-    removeSongFromPlaylist: async (parent, { _id, song }, context) => {
+    removeSongFromPlaylist: async (parent, { _id, songs }, context) => {
       const songIndex = song.index;
 
       if (context.user) {
-        return await Playlist.findByIdAndUpdate(_id, { $pull: song[songIndex] });
+        return await Playlist.findByIdAndUpdate(
+          { _id: _id }, 
+          { $pull: songs[songIndex] }
+        );
       }
 
       throw new AuthenticationError('Not logged in');
