@@ -25,11 +25,12 @@ const typeDefs = gql`
   }
 
   input SongInput {
-    _id: ID
-    title: String
-    artist: String
+    _id: ID!
+    title: String!
+    artist: String!
     album: String
-  }
+}
+
 
   type Auth {
     token: ID
