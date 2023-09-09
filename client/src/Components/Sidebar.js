@@ -15,7 +15,7 @@ const Sidebar = ({ onSongSelect }) => {
     };
 
     const fetchSongs = async (query) => {
-        const token = localStorage.getItem('spotify_access_token'); // Assuming you have stored token in local storage
+        const token = localStorage.getItem('spotify_access_token');
         try {
             const response = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=5`, {
                 headers: {
@@ -30,35 +30,44 @@ const Sidebar = ({ onSongSelect }) => {
 
     return (
         <div className="w-1/4 space-y-6 pr-6">
-            <input 
-                type="text" 
-                placeholder="Search for music..."
-                value={search}
-                onChange={handleSearchChange}
-                className="w-full p-4 rounded-full outline-none" 
-                style={{ backgroundColor: '#4F518C' }} 
-            />
-            {searchResults.length > 0 && (
-                <div className="rounded overflow-y-auto max-h-60" style={{ backgroundColor: '#3F408C' }}>
-                    {searchResults.map((song, index) => (
-                        <div 
-                            key={index} 
-                            className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer"
-                            onClick={() => onSongSelect({
-                                title: song.name,
-                                artist: song.artists[0].name,
-                                albumCover: song.album.images[0].url,
-                                uri: song.uri,
-                                duration: song.duration_ms
-                            })}
-                        >
-                            {song.name} - {song.artists[0].name}
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className="relative">
+                <input 
+                    type="text" 
+                    placeholder="Search for music..."
+                    value={search}
+                    onChange={handleSearchChange}
+                    className="w-full p-4 rounded-full outline-none mb-2"
+                    style={{ backgroundColor: '#4F518C' }} 
+                />
+                {searchResults.length > 0 && (
+                    <div 
+    className="rounded-lg overflow-y-auto max-h-60 absolute w-full mt-1 border-t-0 border border-white border-opacity-20"
+    style={{ backgroundColor: '#3F408C' }}
+>
+    {searchResults.map((song, index) => (
+        <div 
+            key={index} 
+            className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
+            onClick={() => {
+                onSongSelect({
+                    title: song.name,
+                    artist: song.artists[0].name,
+                    albumCover: song.album.images[0].url,
+                    uri: song.uri,
+                    duration: song.duration_ms
+                });
+                setSearchResults([]);  // This will clear the search results and close the dropdown
+            }}
+        >
+            {song.name} - {song.artists[0].name}
+        </div>
+    ))}
+</div>
+
+                )}
+            </div>
             <h2 className="text-2xl font-bold mb-4">Your Playlists</h2>
-            <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer">Chill Vibes</div>
+            <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300">Chill Vibes</div>
             {/* Add more playlists similarly */}
         </div>
     );
