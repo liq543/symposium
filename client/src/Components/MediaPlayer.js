@@ -137,10 +137,10 @@ const handleProgressBarClick = (e) => {
 const songProgressPercentage = selectedSong ? (currentPlaybackTime / selectedSong.duration) * 100 : 0;
 
 return (
-  <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4" style={{ backgroundColor: '#4F518C' }}>
+  <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4 z-10" style={{ backgroundColor: '#4F518C' }}>
       {/* Album Cover and Song Details */}
       <div className="flex items-center space-x-4">
-          <img src={selectedSong ? selectedSong.albumCover : '/default_cover.jpg'} alt="Album Cover" className="w-12 h-12 rounded-md" />
+          <img src={selectedSong ? selectedSong.albumCover : './sc.png'} alt="Album Cover" className="w-12 h-12 rounded-md" />
           <div>
               <h4 className="text-white font-medium">{selectedSong ? selectedSong.title : 'No Song Selected'}</h4>
               <p className="text-gray-400">{selectedSong ? selectedSong.artist : 'Select a song'}</p>
