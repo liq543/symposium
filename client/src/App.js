@@ -43,6 +43,7 @@ const App = () => {
                 </Routes>
             </Router>
             <Header />
+
             <div className="flex mt-10 px-8 overflow-hidden">
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 {currentView === 'main' && <MainView />}
