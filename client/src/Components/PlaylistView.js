@@ -2,7 +2,7 @@ import React from 'react';
 
 const PlaylistView = ({ playlist }) => {
     return (
-        <div className="flex flex-col w-full p-8 bg-gray-800 bg-opacity-60 rounded-lg pb-20">
+        <div className="flex flex-col w-full p-8 bg-gray-800 bg-opacity-60 rounded-lg pb-20 overflow-hidden">
             <div className="w-full flex items-start mb-10">
                 {/* Force the image to be a fixed size of 250x250 and square */}
                 <img 
@@ -15,7 +15,7 @@ const PlaylistView = ({ playlist }) => {
                     {/* we can add a playlist description or somfin here */}
                 </div>
             </div>
-            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-330px)] mb-10">
+            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-520px)] mb-10">
                 {playlist.songs.map((song, index) => (
                     <div 
                         key={index} 

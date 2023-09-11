@@ -33,7 +33,7 @@ const App = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#2C2A4A' }} className="min-h-screen text-white">
+        <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
             <Router>
                 <Routes>
                     <Route path="/callback" element={<AuthCallback />} />
@@ -43,7 +43,8 @@ const App = () => {
                 </Routes>
             </Router>
             <Header />
-            <div className="flex mt-10 px-8">
+
+            <div className="flex mt-10 px-8 overflow-hidden">
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 {currentView === 'main' && <MainView />}
                 {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} />}
