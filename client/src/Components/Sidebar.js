@@ -7,51 +7,18 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
 
     const samplePlaylists = [
         {
-            name: 'Summer Hits',
+            name: `Griffin's Cool Jams`,
             image: './images/palm.jpg',
-            songs: [
-                {
-                    name: 'Sunny Days',
-                    artist: 'The Sunshines',
-                    duration: 220000 // approximately 3 minutes and 40 seconds
-                },
-                {
-                    name: 'Beach Vibes',
-                    artist: 'Wave Walkers',
-                    duration: 250000 // approximately 4 minutes and 10 seconds
-                },
-                {
-                    name: 'Tropical Dream',
-                    artist: 'Palm Trees',
-                    duration: 190000 // approximately 3 minutes and 10 seconds
-                },
-                {
-                    name: 'Island Getaway',
-                    artist: 'Sandy Beaches',
-                    duration: 180000 // approximately 3 minutes
-                },
-                {
-                    name: 'Tropical Dream',
-                    artist: 'Palm Trees',
-                    duration: 190000 // approximately 3 minutes and 10 seconds
-                },
-                {
-                    name: 'Tropical Dream',
-                    artist: 'Palm Trees',
-                    duration: 190000 // approximately 3 minutes and 10 seconds
-                },
-                {
-                    name: 'Tropical Dream',
-                    artist: 'Palm Trees',
-                    duration: 190000 // approximately 3 minutes and 10 seconds
-                },
-                {
-                    name: 'Tropical Dream',
-                    artist: 'Palm Trees',
-                    duration: 190000 // approximately 3 minutes and 10 seconds
-                },
+            songs: ['3qPZlJAvV95TnC4kFgTvnA',
+                    '6jEqBrapfygeEbxdVqMlvl',
+                    '1qPDHJnx0JuDOE7QnpjtAd',
+                    '2yNiL8SXT6xDcalxNmwJVj',
+                    '5Ma1xPAUNkOz4q3Hg7THSI',
+                    '1hRRp3uMap1ZfN7ulNal3T',
+                    '7bpfZYrS4dQKxiuj6QiRaX',
+                    '2T35zf0H3bFvUaNeeu5jDI'
             ]
-        }
+        },
     ];
     
 

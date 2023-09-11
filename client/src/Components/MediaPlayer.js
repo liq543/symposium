@@ -1,7 +1,7 @@
 /* global Spotify */
 import React, { useState, useEffect, useRef } from 'react';
 
-const MediaPlayer = ({ selectedSong }) => {
+const MediaPlayer = ({ selectedSong, currentSongIndex, currentPlaylist, onSongChange, handleSpecificSongSelect }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState(null);
   const [deviceID, setDeviceID] = useState(null); // This will be set to the device ID of the Spotify Web Player
@@ -106,13 +106,23 @@ const MediaPlayer = ({ selectedSong }) => {
     }
   };
 
-  const skipToNext = () => {
-    player.nextTrack();
+  const changeSong = (indexChange) => {
+    if (currentPlaylist && currentSongIndex !== null) {
+      const newIndex = currentSongIndex + indexChange;
+      if (newIndex >= 0 && newIndex < currentPlaylist.songs.length) {
+        const newSongId = currentPlaylist.songs[newIndex].uri.split(":")[2];
+        handleSpecificSongSelect(newSongId, newIndex);
+      }
+    }
   };
+  
+const skipToNext = () => {
+  changeSong(1);
+};
 
-  const skipToPrevious = () => {
-    player.previousTrack();
-  };
+const skipToPrevious = () => {
+  changeSong(-1);
+};
 
   function formatTime(milliseconds) {
     let totalSeconds = Math.floor(milliseconds / 1000);
