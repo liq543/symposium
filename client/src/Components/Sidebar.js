@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useMutation } from '@apollo/client';
 
 const Sidebar = ({ onSongSelect }) => {
     const [search, setSearch] = useState('');
@@ -27,6 +28,15 @@ const Sidebar = ({ onSongSelect }) => {
             console.error('Error fetching songs from Spotify:', error);
         }
     };
+
+    // Function that allows user to create a playlist when they click the "Add Playlist" button
+    const createNewPlaylist = async () => {
+        try {
+            
+        } catch {
+
+        }
+    }
 
     return (
         <div className="w-1/4 space-y-6 pr-6">
@@ -67,6 +77,9 @@ const Sidebar = ({ onSongSelect }) => {
                 )}
             </div>
             <h2 className="text-2xl font-bold mb-4">Your Playlists</h2>
+            <button 
+                className='addPlaylistBtn'
+            >Add Playlist</button>
             <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300">Chill Vibes</div>
             {/* Add more playlists similarly */}
         </div>

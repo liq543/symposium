@@ -62,21 +62,23 @@ db.once('open', async () => {
   ]);
 
   // Show in the console that the playlist is seeded to the database
-  console.log('Playlists seeded');
+  console.log('Playlists seeded!');
 
   // Remove all users
   await User.deleteMany();
 
   // Create a default user with their credentials
-  await User.create({
-    username: 'TestUser123',
-    email: 'testuser@email.com',
-    password: 'password12345',
-    playlists: ['Playlist01']
-  });
+  await User.insertMany([
+    {
+      username: 'TestUser123',
+      email: 'testuser@email.com',
+      password: 'password12345',
+      playlists: []
+    }
+  ]);
 
   // Show in the console that the user is seeded to the database
-  console.log('users seeded');
+  console.log('Users seeded!');
 
   process.exit();
 });
