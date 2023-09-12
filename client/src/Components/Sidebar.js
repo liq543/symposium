@@ -2,9 +2,26 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useMutation } from '@apollo/client';
 
-const Sidebar = ({ onSongSelect }) => {
+const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
     const [search, setSearch] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+
+    const samplePlaylists = [
+        {
+            name: `Griffin's Cool Jams`,
+            image: './images/palm.jpg',
+            songs: ['3qPZlJAvV95TnC4kFgTvnA',
+                    '6jEqBrapfygeEbxdVqMlvl',
+                    '1qPDHJnx0JuDOE7QnpjtAd',
+                    '2yNiL8SXT6xDcalxNmwJVj',
+                    '5Ma1xPAUNkOz4q3Hg7THSI',
+                    '1hRRp3uMap1ZfN7ulNal3T',
+                    '7bpfZYrS4dQKxiuj6QiRaX',
+                    '2T35zf0H3bFvUaNeeu5jDI'
+            ]
+        },
+    ];
+    
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -51,35 +68,32 @@ const Sidebar = ({ onSongSelect }) => {
                 />
                 {searchResults.length > 0 && (
                     <div 
-    className="rounded-lg overflow-y-auto max-h-60 absolute w-full mt-1 border-t-0 border border-white border-opacity-20"
-    style={{ backgroundColor: '#3F408C' }}
->
-    {searchResults.map((song, index) => (
-        <div 
-            key={index} 
-            className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
-            onClick={() => {
-                onSongSelect({
-                    title: song.name,
-                    artist: song.artists[0].name,
-                    albumCover: song.album.images[0].url,
-                    uri: song.uri,
-                    duration: song.duration_ms
-                });
-                setSearchResults([]);  // This will clear the search results and close the dropdown
-            }}
-        >
-            {song.name} - {song.artists[0].name}
-        </div>
-    ))}
-</div>
-
+                        className="rounded-lg overflow-y-auto max-h-60 absolute w-full mt-1 border-t-0 border border-white border-opacity-20"
+                        style={{ backgroundColor: '#3F408C' }}
+                    >
+                        {searchResults.map((song, index) => (
+                            <div 
+                                key={index} 
+                                className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
+                                onClick={() => {
+                                    onSongSelect({
+                                        title: song.name,
+                                        artist: song.artists[0].name,
+                                        albumCover: song.album.images[0].url,
+                                        uri: song.uri,
+                                        duration: song.duration_ms
+                                    });
+                                    setSearchResults([]);  // This will clear the search results and close the dropdown
+                                }}
+                            >
+                                {song.name} - {song.artists[0].name}
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
+
             <h2 className="text-2xl font-bold mb-4">Your Playlists</h2>
-            <button 
-                className='addPlaylistBtn'
-            >Add Playlist</button>
             <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300">Chill Vibes</div>
             {/* Add more playlists similarly */}
         </div>
