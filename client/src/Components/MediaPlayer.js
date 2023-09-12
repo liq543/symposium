@@ -110,12 +110,12 @@ const MediaPlayer = ({ selectedSong, currentSongIndex, currentPlaylist, onSongCh
     if (currentPlaylist && currentSongIndex !== null) {
       const newIndex = currentSongIndex + indexChange;
       if (newIndex >= 0 && newIndex < currentPlaylist.songs.length) {
-        const newSongId = currentPlaylist.songs[newIndex].uri.split(":")[2];
+        const newSongId = currentPlaylist.songs[newIndex];
         handleSpecificSongSelect(newSongId, newIndex);
       }
     }
   };
-  
+
 const skipToNext = () => {
   changeSong(1);
 };
