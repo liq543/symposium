@@ -75,7 +75,16 @@ export const ADD_SONG_TO_PLAYLIST = gql`
 // I need help getting this to work correctly.
 export const REMOVE_SONG_FROM_PLAYLIST = gql`
     mutation removeSongFromPlaylist() {
-
+        removeSongFromPlaylist(_id: $id, songs: $songs) {
+            _id
+            playlistName
+            songs {
+              _id
+              title
+              artist
+              album
+            }
+        }
     }
 `;
 
