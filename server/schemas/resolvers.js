@@ -6,6 +6,11 @@ const { signToken } = require('../utils/auth');
 // Establishes all resolvers based on the typeDefs in greater detail
 const resolvers = {
   Query: {
+    // Find all users in the database for testing purposes
+    users: async () => {
+      return await User.find();
+    },
+    
     // Finds a user by its ID, which should be run when a user successfully logs in
     user: async (parent, { _id }) => {
       return await User.findById(_id);
@@ -93,11 +98,12 @@ const resolvers = {
 
     // Updates a playlist's name by it's ID while the user is logged in
     updatePlaylistName: async (parent, { _id, playlistName }, context) => {
+      // console.log(playlistName);
       if (context.user) {
-        return await Playlist.findByIdAndUpdate(_id, { $rename: { playlistName } });
+        return await Playlist.findByIdAndUpdate(_id, { playlistName: playlistName } , { new: true });
       }
 
-      throw new AuthenticationError('Not logged in');
+      // throw new AuthenticationError('Not logged in');
     },
 
     // Adds a track to the end of a playlist by its ID while the user is logged in
@@ -105,25 +111,29 @@ const resolvers = {
       if (context.user) {
         return await Playlist.findByIdAndUpdate(
           { _id: _id  }, 
-          { $push: songs }
+          { $push: { songs: songs } },
+          { new: true }
         );
       }
 
-      throw new AuthenticationError('Not logged in');
+      // throw new AuthenticationError('Not logged in');
     },
 
     // Removes a track from the playlist by its ID while the user is logged in
+    // TODO: Please fix this so that it works correctly.
     removeSongFromPlaylist: async (parent, { _id, songs }, context) => {
-      const songIndex = song.index;
+      // const songIndex = song.index;
+      console.log(songs);
 
       if (context.user) {
-        return await Playlist.findByIdAndUpdate(
+        return await Playlist.findOneAndUpdate(
           { _id: _id }, 
-          { $pull: songs[songIndex] }
+          { $pull: { songs: { $in: songs } } },
+          { new: true }
         );
       }
 
-      throw new AuthenticationError('Not logged in');
+      // throw new AuthenticationError('Not logged in');
     },
 
     // Deletes a playlist while the user is logged in
@@ -132,7 +142,7 @@ const resolvers = {
         return await Playlist.deleteOne(args);
       }
 
-      throw new AuthenticationError('Not logged in');
+      // throw new AuthenticationError('Not logged in');
     },
   }
 };

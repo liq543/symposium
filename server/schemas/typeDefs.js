@@ -28,9 +28,8 @@ const typeDefs = gql`
     _id: ID!
     title: String!
     artist: String!
-    album: String
-}
-
+    album: String!
+  }
 
   type Auth {
     token: ID
@@ -38,7 +37,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    user: User
+    users: [User]
+    user(_id: ID!): User
     playlists: [Playlist]
     playlist(_id: ID!): Playlist
     songs(title: String, artist: String, album: String): [Song]
@@ -51,8 +51,8 @@ const typeDefs = gql`
     updateUser(username: String, email: String, password: String): User
     addPlaylist(playlistName: String!): Playlist
     updatePlaylistName(_id: ID!, playlistName: String!): Playlist
-    addSongToPlaylist(_id: ID!, playlistName: String, songs: [SongInput]): Playlist
-    removeSongFromPlaylist(_id: ID!, playlistName: String, songs: [SongInput]): Playlist
+    addSongToPlaylist(_id: ID!, songs: [SongInput]): Playlist
+    removeSongFromPlaylist(_id: ID!, songs: [SongInput]): Playlist
     deletePlaylist(_id: ID!): Playlist
   }
 `;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useMutation } from '@apollo/client';
 
 const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
     const [search, setSearch] = useState('');
@@ -45,6 +46,15 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
         }
     };
 
+    // Function that allows user to create a playlist when they click the "Add Playlist" button
+    const createNewPlaylist = async () => {
+        try {
+            
+        } catch {
+
+        }
+    }
+
     return (
         <div className="w-1/4 space-y-6 pr-6">
             <div className="relative">
@@ -84,15 +94,8 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
             </div>
 
             <h2 className="text-2xl font-bold mb-4">Your Playlists</h2>
-            {samplePlaylists.map((playlist, index) => (
-                <div 
-                    key={index} 
-                    className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300"
-                    onClick={() => onPlaylistClick(playlist)}
-                >
-                    {playlist.name}
-                </div>
-            ))}
+            <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300">Chill Vibes</div>
+            {/* Add more playlists similarly */}
         </div>
     );
 };
