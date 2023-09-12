@@ -17,7 +17,8 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
                     '5Ma1xPAUNkOz4q3Hg7THSI',
                     '1hRRp3uMap1ZfN7ulNal3T',
                     '7bpfZYrS4dQKxiuj6QiRaX',
-                    '2T35zf0H3bFvUaNeeu5jDI'
+                    '6eJVuYB7vUq1V3NqTzRaKp',
+                    '7klj1kmMJGNYR1NB2UexK6'
             ]
         },
     ];

@@ -50,7 +50,7 @@ useEffect(() => {
                         <div key={index} className="flex justify-between items-center p-3 bg-white bg-opacity-20 backdrop-blur-sm animate-slidedown rounded-lg hover:bg-opacity-30 transition duration-300 cursor-pointer"
                             onClick={() => {
                             console.log('clicked song at index', index);
-                            onSelectSong(songDetail, index)}
+                            onSelectSong(songDetail.uri, index)}
                             }>
                             <div className="flex items-center">
                                 <img src={songDetail.album.images[0]?.url || './default-image.png'} alt="Album Cover" className="w-12 h-12 mr-3" />
