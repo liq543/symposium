@@ -23,6 +23,7 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
     ];
     
 
+    
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
         if (e.target.value) {
@@ -94,8 +95,15 @@ const Sidebar = ({ onSongSelect, onPlaylistClick }) => {
             </div>
 
             <h2 className="text-2xl font-bold mb-4">Your Playlists</h2>
-            <div className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300">Chill Vibes</div>
-            {/* Add more playlists similarly */}
+            {samplePlaylists.map((playlist, index) => (
+                <div 
+                    key={index} 
+                    className="text-lg p-3 hover:bg-DABFFF rounded-lg cursor-pointer transition duration-300"
+                    onClick={() => onPlaylistClick(playlist)}
+                >
+                    {playlist.name}
+                </div>
+            ))}
         </div>
     );
 };
