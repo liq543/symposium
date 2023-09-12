@@ -90,6 +90,15 @@ export const REMOVE_SONG_FROM_PLAYLIST = gql`
 
 export const DELETE_PLAYLIST = gql`
     mutation deletePlaylist() {
-        
+        deletePlaylist(_id: $id) {
+            _id
+            playlistName
+            songs {
+              _id
+              title
+              artist
+              album
+            }
+        }
     }
 `;
