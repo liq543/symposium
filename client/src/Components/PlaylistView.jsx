@@ -30,7 +30,7 @@ useEffect(() => {
     fetchSongDetails();
 }, [playlist]);
     return (
-        <div className="flex flex-col w-full p-8 bg-gray-800 bg-opacity-60 rounded-lg pb-20 overflow-hidden">
+        <div className="flex flex-col w-full p-2 bg-gray-800 bg-opacity-60 rounded-lg pb-20 overflow-hidden">
             <div className="w-full flex items-start mb-10">
                 {/* Force the image to be a fixed size of 250x250 and square */}
                 <img 
@@ -43,14 +43,14 @@ useEffect(() => {
                     {/* we can add a playlist description or somfin here */}
                 </div>
             </div>
-            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-550px)] mb-10">
+            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-600px)] mb-10">
                 {songsDetail.map((songDetail, index) => {
                     if (!songDetail) return null;
                     return (
                         <div key={index} className="flex justify-between items-center p-3 bg-white bg-opacity-20 backdrop-blur-sm animate-slidedown rounded-lg hover:bg-opacity-30 transition duration-300 cursor-pointer"
                             onClick={() => {
                             console.log('clicked song at index', index);
-                            onSelectSong(songDetail, index)}
+                            onSelectSong(songDetail.uri, index)}
                             }>
                             <div className="flex items-center">
                                 <img src={songDetail.album.images[0]?.url || './default-image.png'} alt="Album Cover" className="w-12 h-12 mr-3" />

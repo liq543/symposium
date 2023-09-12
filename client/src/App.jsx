@@ -7,6 +7,7 @@ import MainView from './Components/MainView';
 import MediaPlayer from './Components/MediaPlayer';
 import AuthCallback from './Components/AuthCallback';
 import PlaylistView from './Components/PlaylistView';
+import SearchComponent from './Components/SearchComponent';
 
 const DefaultRedirector = () => {
     const navigate = useNavigate();
@@ -39,9 +40,10 @@ const App = () => {
     }
 
     const handleSpecificSongSelect = async (songId, index = null) => {
-        console.log("handleSpecificSongSelect called with ID:", songId);
+        const newSongId = songId.split(':').pop();
+        console.log("handleSpecificSongSelect called with ID:", newSongId);
     
-        const songData = await fetchSongDetails(songId);
+        const songData = await fetchSongDetails(newSongId);
         console.log(songData);
         if (songData) {
         const selectedSong = {
@@ -65,13 +67,13 @@ const App = () => {
     }
 
     const handleSongSelect = (songDetail, index = null) => {
-        console.log("handleSongSelect called with index:", index);
+        console.log("handleSongSelect called with songDetail: ", songDetail);
         const songData = {
             uri: songDetail.uri,
-            title: songDetail.name,
-            artist: songDetail.artists[0].name,
-            duration: songDetail.duration_ms,
-            albumCover: songDetail.album.images[0]?.url || './default-image.png'
+            title: songDetail.title,
+            artist: songDetail.artist,
+            duration: songDetail.duration,
+            albumCover: songDetail.albumCover || './default-image.png'
         };
         setSelectedSong(songData);
     
@@ -99,11 +101,13 @@ const App = () => {
                 </Routes>
             </Router>
             <Header />
-
-            <div className="flex mt-10 px-8 overflow-hidden">
+    
+            <SearchComponent onSongSelect={handleSongSelect} />
+    
+            <div className="flex mt-10 px-8 overflow-hidden space-x-8">
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 {currentView === 'main' && <MainView />}
-                {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSongSelect} />}
+                {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
             </div>
             <MediaPlayer 
                 selectedSong={selectedSong} 
