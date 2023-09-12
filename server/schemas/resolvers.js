@@ -121,7 +121,6 @@ const resolvers = {
 
     // Removes a track from the playlist by its ID while the user is logged in
     removeSongFromPlaylist: async (parent, { _id, songs }, context) => {
-      // console.log(songs);
 
       if (context.user) {
         return Playlist.findOneAndUpdate(
@@ -131,7 +130,7 @@ const resolvers = {
         );
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
 
     // Deletes a playlist while the user is logged in
@@ -140,7 +139,7 @@ const resolvers = {
         return await Playlist.deleteOne(args);
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
   }
 };
