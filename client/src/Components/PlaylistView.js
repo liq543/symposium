@@ -47,7 +47,7 @@ useEffect(() => {
                 {songsDetail.map((songDetail, index) => {
                     if (!songDetail) return null;
                     return (
-                        <div key={index} className="flex justify-between items-center p-3 bg-white bg-opacity-20 backdrop-blur-sm animate-slideup rounded-lg hover:bg-opacity-30 transition duration-300 cursor-pointer"
+                        <div key={index} className="flex justify-between items-center p-3 bg-white bg-opacity-20 backdrop-blur-sm animate-slidedown rounded-lg hover:bg-opacity-30 transition duration-300 cursor-pointer"
                             onClick={() => {
                             console.log('clicked song at index', index);
                             onSelectSong(songDetail, index)}

@@ -1,20 +1,41 @@
+/* Webkit Scrollbars (Chrome, Safari) */
 ::-webkit-scrollbar {
-    width: 10px; /* Adjust width as per your design preference */
+    width: 10px;
 }
 
-/* The background of the scrollbar track */
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
 }
 
-/* The actual scroll handle */
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.4); /* Slightly more opaque white for visibility */
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 10px;
 }
 
-/* On hover over the scroll handle */
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.7);
+}
+
+/* Firefox Scrollbars */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) rgba(255, 255, 255, 0.1);
+}
+
+/* Adjusting the scrollbar position */
+/* Adjusting the scrollbar position */
+.w-full\.flex\.flex-col\.space-y-2\.overflow-y-auto\.max-h-\[calc\(100vh-550px\)\]\.mb-10 {
+    position: relative;
+}
+
+.w-full\.flex\.flex-col\.space-y-2\.overflow-y-auto\.max-h-\[calc\(100vh-550px\)\]\.mb-10::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: inherit;
+    pointer-events: none;
 }
