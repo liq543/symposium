@@ -7,6 +7,7 @@ import MainView from './Components/MainView';
 import MediaPlayer from './Components/MediaPlayer';
 import AuthCallback from './Components/AuthCallback';
 import PlaylistView from './Components/PlaylistView';
+import SearchComponent from './Components/SearchComponent';
 
 const DefaultRedirector = () => {
     const navigate = useNavigate();
@@ -100,8 +101,10 @@ const App = () => {
                 </Routes>
             </Router>
             <Header />
-
-            <div className="flex mt-10 px-8 overflow-hidden">
+    
+            <SearchComponent onSongSelect={handleSongSelect} />
+    
+            <div className="flex mt-10 px-8 overflow-hidden space-x-8">
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 {currentView === 'main' && <MainView />}
                 {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
