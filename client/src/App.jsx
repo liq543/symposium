@@ -118,7 +118,6 @@ const App = () => {
             </Router>
             <Header />
 
-
             <div className="flex mt-2 px-8 overflow-hidden space-x-8">
                 <div className="flex flex-col space-y-4 w-1/4">
                 <SearchComponent onSongSelect={handleSongSelect} />
