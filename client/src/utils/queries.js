@@ -45,7 +45,7 @@ export const QUERY_SONGS = gql`
     }
 `;
 
-// Query to GET 
+// Query to GET one song by its ID
 export const QUERY_SONG = gql`
     query getOneSong {
         song(_id: $id) {
