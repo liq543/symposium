@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
 // const SPOTIFY_CLIENT_ID = '0ce01a95f1a143b9a8c02d3c24cb60cf';
 const SPOTIFY_CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 console.log(process.env.REACT_APP_SPOTIFY_CLIENT_ID);
 const REDIRECT_URI = 'http://localhost:3000/callback';
-
-
 const loginURL = `https://accounts.spotify.com/authorize?client_id=${SPOTIFY_CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=streaming%20user-read-email%20user-read-private&response_type=token&state=123`;
 const Header = ({ logout, isLoggedIn }) => {
     const [isLoginModalOpen, setLoginModalOpen] = useState(false);
     const [showBonzi, setShowBonzi] = useState(false);
     const [isSignupModalOpen, setSignupModalOpen] = useState(false);
+    const [isSpotifyConnected, setSpotifyConnected] = useState(JSON.parse(localStorage.getItem('spotifyConnected')) || false);
+    const [isUserLoggedIn, setUserLoggedIn] = useState(JSON.parse(localStorage.getItem('userLoggedIn')) || false);
+
+    useEffect(() => {
+        localStorage.setItem('spotifyConnected', JSON.stringify(isSpotifyConnected));
+    }, [isSpotifyConnected]);
+
+    useEffect(() => {
+        localStorage.setItem('userLoggedIn', JSON.stringify(isUserLoggedIn));
+    }, [isUserLoggedIn]);
 
     return (
         <div className="py-5 px-8 flex justify-between items-center border-b" style={{ borderColor: '#4F518C' }}>
