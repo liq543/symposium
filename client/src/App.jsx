@@ -8,6 +8,8 @@ import MediaPlayer from './Components/MediaPlayer';
 import AuthCallback from './Components/AuthCallback';
 import PlaylistView from './Components/PlaylistView';
 import SearchComponent from './Components/SearchComponent';
+import Login from './Components/LoginModal';
+import Signup from './Components/SignupModal';
 
 const DefaultRedirector = () => {
     const navigate = useNavigate();
@@ -33,36 +35,36 @@ const App = () => {
                 'Authorization': `Bearer ${token}`
             }
         });
-    
+
         const data = await response.json();
-    
+
         return data;
     }
 
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
         console.log("handleSpecificSongSelect called with ID:", newSongId);
-    
+
         const songData = await fetchSongDetails(newSongId);
         console.log(songData);
         if (songData) {
-        const selectedSong = {
-            uri: songData.uri,
-            title: songData.name,
-            artist: songData.artists[0].name,
-            duration: songData.duration_ms,
-            albumCover: songData.album.images[0]?.url || './default-image.png'
-};
-        setSelectedSong(selectedSong);
-    
-        if (index !== null) {
-            setCurrentSongIndex(index);
+            const selectedSong = {
+                uri: songData.uri,
+                title: songData.name,
+                artist: songData.artists[0].name,
+                duration: songData.duration_ms,
+                albumCover: songData.album.images[0]?.url || './default-image.png'
+            };
+            setSelectedSong(selectedSong);
+
+            if (index !== null) {
+                setCurrentSongIndex(index);
+            } else {
+                setCurrentSongIndex(null);
+                setCurrentPlaylist(null);
+            }
         } else {
-            setCurrentSongIndex(null);
-            setCurrentPlaylist(null);
-        }
-        } else {
-        console.log('Failed to retrieve song details for ID:', songId);
+            console.log('Failed to retrieve song details for ID:', songId);
         }
     }
 
@@ -76,7 +78,7 @@ const App = () => {
             albumCover: songDetail.albumCover || './default-image.png'
         };
         setSelectedSong(songData);
-    
+
         if (index !== null) {
             setCurrentSongIndex(index);
         } else {
@@ -84,7 +86,7 @@ const App = () => {
             setCurrentPlaylist(null);
         }
     };
-    
+
 
     const handlePlaylistClick = (playlist) => {
         setSelectedPlaylist(playlist);
@@ -98,23 +100,25 @@ const App = () => {
                 <Routes>
                     <Route path="/callback" element={<AuthCallback />} />
                     <Route path="*" element={<DefaultRedirector />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
                 </Routes>
             </Router>
             <Header />
-    
+
             <SearchComponent onSongSelect={handleSongSelect} />
-    
+
             <div className="flex mt-10 px-8 overflow-hidden space-x-8">
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 {currentView === 'main' && <MainView />}
                 {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
             </div>
-            <MediaPlayer 
-                selectedSong={selectedSong} 
+            <MediaPlayer
+                selectedSong={selectedSong}
                 currentSongIndex={currentSongIndex}
                 currentPlaylist={currentPlaylist}
                 onSongChange={handleSongSelect}
-                handleSpecificSongSelect={handleSpecificSongSelect} 
+                handleSpecificSongSelect={handleSpecificSongSelect}
             />
         </div>
     );
