@@ -5,6 +5,7 @@ const Sidebar = ({ onPlaylistClick }) => {
         {
             name: `Griffin's Cool Jams`,
             image: './images/palm.jpg',
+            description: "This is a description of Griffin's Cool Jams playlist.",
             songs: ['3qPZlJAvV95TnC4kFgTvnA',
                     '6jEqBrapfygeEbxdVqMlvl',
                     '1qPDHJnx0JuDOE7QnpjtAd',

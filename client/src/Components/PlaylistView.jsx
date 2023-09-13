@@ -39,8 +39,10 @@ useEffect(() => {
                     className="w-56 h-56 mr-8 rounded-lg shadow-lg object-cover"
                 />
                 <div>
-                    <h2 className="font-bold text-4xl text-white mb-4 opacity-80">{playlist.name}</h2>
-                    {/* we can add a playlist description or somfin here */}
+                    <div>
+                        <h2 className="font-bold text-4xl text-white mb-1 opacity-80 mt-4">{playlist.name}</h2>
+                        <p className="text-lg text-white opacity-60">{playlist.description}</p> {/* Display the description */}
+                        </div>
                 </div>
             </div>
             <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-600px)] mb-10">
