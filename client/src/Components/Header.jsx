@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
-const SPOTIFY_CLIENT_ID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_ID = '0ce01a95f1a143b9a8c02d3c24cb60cf';
 console.log(process.env.REACT_APP_SPOTIFY_CLIENT_ID);
 const REDIRECT_URI = 'http://localhost:3000/callback';
 

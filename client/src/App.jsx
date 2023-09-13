@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Components/Header';
@@ -16,18 +16,32 @@ const DefaultRedirector = () => {
     React.useEffect(() => {
         navigate('/player');
     }, [navigate]);
+    return null;
+};
+
+const token = localStorage.getItem('spotify_access_token');
+export const AuthContext = createContext();
+
+const Logout = () => {
+    const { setIsLoggedIn } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.removeItem('spotify_access_token');
+        setIsLoggedIn(false);
+        navigate('/');
+    }, [navigate, setIsLoggedIn]);
 
     return null;
-}
-const token = localStorage.getItem('spotify_access_token');
+};
+
 const App = () => {
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentView, setCurrentView] = useState('main');
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [currentPlaylist, setCurrentPlaylist] = useState(null);
-
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
-
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
 
     const fetchSongDetails = async (trackId) => {
         const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
@@ -35,11 +49,9 @@ const App = () => {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const data = await response.json();
-
         return data;
-    }
+    };
 
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
