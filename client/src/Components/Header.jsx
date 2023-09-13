@@ -34,7 +34,7 @@ const Header = ({ logout, isLoggedIn }) => {
                 {isUserLoggedIn && <Link to="/logout" onClick={() => { setSpotifyConnected(false); setUserLoggedIn(false); }} className="px-5 py-2 rounded-full hover:bg-DABFFF" style={{ backgroundColor: '#907AD6', textDecoration: 'none', display: 'block' }}>Logout</Link>}
             </div>
 
-            {isLoginModalOpen && <LoginModal onClose={() => { setLoginModalOpen(false); setUserLoggedIn(true); }} />} {/* Once the modal is closed, assume user has logged in */}
+            {isLoginModalOpen && <LoginModal onClose={() => { setLoginModalOpen(false); setUserLoggedIn(true); }} />}
             {isSignupModalOpen && <SignupModal onClose={() => setSignupModalOpen(false)} />}
         </div>
     );

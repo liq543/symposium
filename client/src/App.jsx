@@ -11,6 +11,8 @@ import SearchComponent from './Components/SearchComponent';
 import Login from './Components/LoginModal';
 import Signup from './Components/SignupModal';
 
+
+
 const DefaultRedirector = () => {
     const navigate = useNavigate();
     React.useEffect(() => {
@@ -24,19 +26,6 @@ const token = localStorage.getItem('spotify_access_token');
 
 export const AuthContext = createContext();
 
-const Logout = () => {
-    const { setIsLoggedIn } = useContext(AuthContext); // get setIsLoggedIn from context
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        localStorage.removeItem('spotify_access_token');
-        setIsLoggedIn(false);
-        navigate('/');
-    }, [navigate, setIsLoggedIn]); // add setIsLoggedIn to the dependencies array
-
-    return null;
-};
-
 
 const App = () => {
     const [selectedSong, setSelectedSong] = useState(null);
@@ -45,6 +34,8 @@ const App = () => {
     const [currentPlaylist, setCurrentPlaylist] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
+    const [navigateTo, setNavigateTo] = useState(null);
+    const [playlist, setPlaylist] = useState(null);
 
 
     const fetchSongDetails = async (trackId) => {
@@ -107,16 +98,19 @@ const App = () => {
     };
 
 
-    const handlePlaylistClick = (playlist) => {
+    const handlePlaylistClick = (event, playlist) => {
+        event.preventDefault();
+
+        console.log('Playlist Clicked:', playlist);
         setSelectedPlaylist(playlist);
         setCurrentPlaylist(playlist);
         setCurrentView('playlist');
+        setPlaylist(true)
     };
-
 
     return (
         <Router>
-            <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}> {/* Pass setIsLoggedIn via context */}
+            <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
                 <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
                     <Header isLoggedIn={isLoggedIn} />
                     <SearchComponent onSongSelect={handleSongSelect} />
@@ -124,12 +118,12 @@ const App = () => {
                         <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                         <Routes>
                             <Route path="/callback" element={<AuthCallback />} />
-                            <Route path="*" element={<DefaultRedirector />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/signup" element={<Signup />} />
-                            <Route path="/logout" element={<Logout />} />
-                            {currentView === 'main' && <Route path="/player" element={<MainView />} />}
-                            {currentView === 'playlist' && <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />} />}
+                            <Route path="/player" element={<MainView />} />
+                            <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
+                            <Route path="*" element={<DefaultRedirector />} />
+
                         </Routes>
                     </div>
 
@@ -142,7 +136,7 @@ const App = () => {
                     />
                 </div>
             </AuthContext.Provider>
-        </Router>
+        </Router >
     );
 };
 
