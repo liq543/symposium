@@ -36,7 +36,6 @@ function App() {
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
-
     const fetchSongDetails = async (trackId) => {
         const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
             headers: {
