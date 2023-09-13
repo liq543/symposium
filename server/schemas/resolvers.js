@@ -103,7 +103,7 @@ const resolvers = {
         return await Playlist.findByIdAndUpdate(_id, { playlistName: playlistName } , { new: true });
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
 
     // Adds a track to the end of a playlist by its ID while the user is logged in
@@ -116,24 +116,21 @@ const resolvers = {
         );
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
 
     // Removes a track from the playlist by its ID while the user is logged in
-    // TODO: Please fix this so that it works correctly.
     removeSongFromPlaylist: async (parent, { _id, songs }, context) => {
-      // const songIndex = song.index;
-      console.log(songs);
 
       if (context.user) {
-        return await Playlist.findOneAndUpdate(
-          { _id: _id }, 
-          { $pull: { songs: { $in: songs } } },
+        return Playlist.findOneAndUpdate(
+          { _id: _id },
+          { $pull: { songs: songs[0] } },
           { new: true }
         );
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
 
     // Deletes a playlist while the user is logged in
@@ -142,7 +139,7 @@ const resolvers = {
         return await Playlist.deleteOne(args);
       }
 
-      // throw new AuthenticationError('Not logged in');
+      throw new AuthenticationError('Not logged in');
     },
   }
 };
