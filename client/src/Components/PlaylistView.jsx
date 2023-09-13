@@ -45,7 +45,7 @@ useEffect(() => {
                         </div>
                 </div>
             </div>
-            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-600px)] mb-10">
+            <div className="w-full flex flex-col space-y-2 overflow-y-auto max-h-[calc(100vh-500px)] mb-10">
                 {songsDetail.map((songDetail, index) => {
                     if (!songDetail) return null;
                     return (

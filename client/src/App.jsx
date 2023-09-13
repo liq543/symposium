@@ -106,10 +106,12 @@ const App = () => {
             </Router>
             <Header />
 
-            <SearchComponent onSongSelect={handleSongSelect} />
 
-            <div className="flex mt-10 px-8 overflow-hidden space-x-8">
+            <div className="flex mt-2 px-8 overflow-hidden space-x-8">
+                <div className="flex flex-col space-y-4 w-1/4">
+                <SearchComponent onSongSelect={handleSongSelect} />
                 <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                </div>
                 {currentView === 'main' && <MainView />}
                 {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
             </div>

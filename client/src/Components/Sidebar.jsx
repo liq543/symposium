@@ -20,7 +20,7 @@ const Sidebar = ({ onPlaylistClick }) => {
     ];
 
     return (
-        <div className="w-1/4 space-y-6 rounded-3xl" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+        <div className="space-y-6 rounded-3xl" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
             <div className="p-3 border-b border-gray-300 mb-4">
                 <h2 className="text-2xl font-bold">Your Playlists</h2>
             </div>
