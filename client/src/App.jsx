@@ -16,27 +16,24 @@ const DefaultRedirector = () => {
     React.useEffect(() => {
         navigate('/player');
     }, [navigate]);
-
     return null;
 };
 
 const token = localStorage.getItem('spotify_access_token');
-
 export const AuthContext = createContext();
 
 const Logout = () => {
-    const { setIsLoggedIn } = useContext(AuthContext); // get setIsLoggedIn from context
+    const { setIsLoggedIn } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         localStorage.removeItem('spotify_access_token');
         setIsLoggedIn(false);
         navigate('/');
-    }, [navigate, setIsLoggedIn]); // add setIsLoggedIn to the dependencies array
+    }, [navigate, setIsLoggedIn]);
 
     return null;
 };
-
 
 const App = () => {
     const [selectedSong, setSelectedSong] = useState(null);
@@ -46,19 +43,15 @@ const App = () => {
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
 
-
     const fetchSongDetails = async (trackId) => {
         const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const data = await response.json();
-
         return data;
     };
-
 
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
@@ -113,37 +106,36 @@ const App = () => {
         setCurrentView('playlist');
     };
 
-
     return (
-        <Router>
-            <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}> {/* Pass setIsLoggedIn via context */}
-                <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
-                    <Header isLoggedIn={isLoggedIn} />
-                    <SearchComponent onSongSelect={handleSongSelect} />
-                    <div className="flex mt-10 px-8 overflow-hidden space-x-8">
-                        <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
-                        <Routes>
-                            <Route path="/callback" element={<AuthCallback />} />
-                            <Route path="*" element={<DefaultRedirector />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/logout" element={<Logout />} />
-                            {currentView === 'main' && <Route path="/player" element={<MainView />} />}
-                            {currentView === 'playlist' && <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />} />}
-                        </Routes>
-                    </div>
+        <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
+            <Router>
+                <Routes>
+                    <Route path="/callback" element={<AuthCallback />} />
+                    <Route path="*" element={<DefaultRedirector />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Routes>
+            </Router>
+            <Header />
 
-                    <MediaPlayer
-                        selectedSong={selectedSong}
-                        currentSongIndex={currentSongIndex}
-                        currentPlaylist={currentPlaylist}
-                        onSongChange={handleSongSelect}
-                        handleSpecificSongSelect={handleSpecificSongSelect}
-                    />
+
+            <div className="flex mt-2 px-8 overflow-hidden space-x-8">
+                <div className="flex flex-col space-y-4 w-1/4">
+                <SearchComponent onSongSelect={handleSongSelect} />
+                <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                 </div>
-            </AuthContext.Provider>
-        </Router>
+                {currentView === 'main' && <MainView />}
+                {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
+            </div>
+            <MediaPlayer
+                selectedSong={selectedSong}
+                currentSongIndex={currentSongIndex}
+                currentPlaylist={currentPlaylist}
+                onSongChange={handleSongSelect}
+                handleSpecificSongSelect={handleSpecificSongSelect}
+            />
+        </div>
     );
-};
+}
 
 export default App;

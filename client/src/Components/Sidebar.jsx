@@ -5,17 +5,18 @@ const Sidebar = ({ onPlaylistClick }) => {
         {
             name: `Griffin's Cool Jams`,
             image: './images/palm.jpg',
-            songs: [
-                '3qPZlJAvV95TnC4kFgTvnA',
-                '6jEqBrapfygeEbxdVqMlvl',
-                '1qPDHJnx0JuDOE7QnpjtAd',
-                '2yNiL8SXT6xDcalxNmwJVj',
-                '5Ma1xPAUNkOz4q3Hg7THSI',
-                '1hRRp3uMap1ZfN7ulNal3T',
-                '7bpfZYrS4dQKxiuj6QiRaX',
-                '6eJVuYB7vUq1V3NqTzRaKp',
-                '7klj1kmMJGNYR1NB2UexK6',
-            ],
+            description: "This is a description of Griffin's Cool Jams playlist.",
+            songs: ['3qPZlJAvV95TnC4kFgTvnA',
+                    '6jEqBrapfygeEbxdVqMlvl',
+                    '1qPDHJnx0JuDOE7QnpjtAd',
+                    '2yNiL8SXT6xDcalxNmwJVj',
+                    '5Ma1xPAUNkOz4q3Hg7THSI',
+                    '1hRRp3uMap1ZfN7ulNal3T',
+                    '7bpfZYrS4dQKxiuj6QiRaX',
+                    '6eJVuYB7vUq1V3NqTzRaKp',
+                    '7klj1kmMJGNYR1NB2UexK6'
+            ]
+
         },
     ];
 
@@ -31,7 +32,7 @@ const Sidebar = ({ onPlaylistClick }) => {
     };
 
     return (
-        <div className="w-1/4 space-y-6 rounded-3xl" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+        <div className="space-y-6 rounded-3xl" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
             <div className="p-3 border-b border-gray-300 mb-4">
                 <h2 className="text-2xl font-bold">Your Playlists</h2>
             </div>

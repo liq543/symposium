@@ -29,9 +29,9 @@ const SearchComponent = ({ onSongSelect }) => {
     };
 
     return (
-        <div className="relative ml-10 w-1/6 mt-5">
+        <div className="relative mt-5">
             <input 
-                type="text" 
+                type="text"
                 placeholder="Search for music..."
                 value={search}
                 onChange={handleSearchChange}
