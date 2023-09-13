@@ -13,21 +13,20 @@ import Signup from './Components/SignupModal';
 
 
 
-const DefaultRedirector = () => {
+
+const token = localStorage.getItem('spotify_access_token');
+export const AuthContext = createContext();
+
+function DefaultRedirector() {
     const navigate = useNavigate();
+
     React.useEffect(() => {
         navigate('/player');
     }, [navigate]);
-
     return null;
 };
+function App() {
 
-const token = localStorage.getItem('spotify_access_token');
-
-export const AuthContext = createContext();
-
-
-const App = () => {
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentView, setCurrentView] = useState('main');
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
@@ -44,13 +43,9 @@ const App = () => {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const data = await response.json();
-
         return data;
     };
-
-
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
         console.log("handleSpecificSongSelect called with ID:", newSongId);
@@ -127,6 +122,12 @@ const App = () => {
                         </Routes>
                     </div>
 
+                    {/* <div className="flex mt-2 px-8 overflow-hidden space-x-8">
+                        <div className="flex flex-col space-y-4 w-1/4">
+                            <SearchComponent onSongSelect={handleSongSelect} />
+                            <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                        </div>
+                    </div> */}
                     <MediaPlayer
                         selectedSong={selectedSong}
                         currentSongIndex={currentSongIndex}
@@ -138,6 +139,6 @@ const App = () => {
             </AuthContext.Provider>
         </Router >
     );
-};
+}
 
 export default App;
