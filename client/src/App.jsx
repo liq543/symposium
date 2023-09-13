@@ -18,12 +18,10 @@ const DefaultRedirector = () => {
     React.useEffect(() => {
         navigate('/player');
     }, [navigate]);
-
     return null;
 };
 
 const token = localStorage.getItem('spotify_access_token');
-
 export const AuthContext = createContext();
 
 
@@ -37,19 +35,15 @@ const App = () => {
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
-
     const fetchSongDetails = async (trackId) => {
         const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
-
         const data = await response.json();
-
         return data;
     };
-
 
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
@@ -127,17 +121,16 @@ const App = () => {
                         </Routes>
                     </div>
 
-                    <MediaPlayer
-                        selectedSong={selectedSong}
-                        currentSongIndex={currentSongIndex}
-                        currentPlaylist={currentPlaylist}
-                        onSongChange={handleSongSelect}
-                        handleSpecificSongSelect={handleSpecificSongSelect}
-                    />
+                    <div className="flex mt-2 px-8 overflow-hidden space-x-8">
+                        <div className="flex flex-col space-y-4 w-1/4">
+                            <SearchComponent onSongSelect={handleSongSelect} />
+                            <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                        </div>
+                    </div>
                 </div>
             </AuthContext.Provider>
         </Router >
     );
-};
+}
 
 export default App;
