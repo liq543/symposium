@@ -93,7 +93,7 @@ function App() {
 
 
     const handlePlaylistClick = (event, playlist) => {
-        // event.preventDefault();
+        event.preventDefault();
 
         console.log('Playlist Clicked:', playlist);
         setSelectedPlaylist(playlist);
