@@ -6,36 +6,46 @@ const formatDuration = (milliseconds) => {
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-const PlaylistView = ({ playlist, onSelectSong }) => {
-const [songsDetail, setSongsDetail] = useState([]);
+const PlaylistView = ({ playlist, onSelectSong, currentView, setCurrentView }) => {
+    const [songsDetail, setSongsDetail] = useState([]);
 
-useEffect(() => {
-    const fetchSongDetails = async () => {
-    const token = localStorage.getItem('spotify_access_token');
-    const songURIs = playlist.songs.join(',');
-    try {
-        const response = await fetch(`https://api.spotify.com/v1/tracks?ids=${songURIs}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        });
-        const data = await response.json();
-        console.log("Spotify API Response:", data);
-        setSongsDetail(data.tracks.filter(Boolean));
-    } catch (error) {
-        console.error("Error fetching song details", error);
+    useEffect(() => {
+        if (!playlist) {
+            return;
+        }
+        console.log('Playlist in useEffect:', playlist);
+        setCurrentView('playlist');
+
+        const fetchSongDetails = async () => {
+            const token = localStorage.getItem('spotify_access_token');
+            const songURIs = playlist.songs.join(',');
+            try {
+                const response = await fetch(`https://api.spotify.com/v1/tracks?ids=${songURIs}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data = await response.json();
+                console.log("Spotify API Response:", data);
+                setSongsDetail(data.tracks.filter(Boolean));
+            } catch (error) {
+                console.error("Error fetching song details", error);
+            }
+        };
+
+        fetchSongDetails();
+    }, [playlist, setCurrentView]);
+
+    if (!playlist) {
+        return null; // or return a loading spinner or some placeholder content
     }
-    };
-
-    fetchSongDetails();
-}, [playlist]);
     return (
         <div className="flex flex-col w-full p-2 bg-gray-800 bg-opacity-60 rounded-lg pb-20 overflow-hidden">
             <div className="w-full flex items-start mb-10">
                 {/* Force the image to be a fixed size of 250x250 and square */}
-                <img 
-                    src={playlist.image} 
-                    alt={playlist.name} 
+                <img
+                    src={playlist.image}
+                    alt={playlist.name}
                     className="w-56 h-56 mr-8 rounded-lg shadow-lg object-cover"
                 />
                 <div>
@@ -51,8 +61,9 @@ useEffect(() => {
                     return (
                         <div key={index} className="flex justify-between items-center p-3 bg-white bg-opacity-20 backdrop-blur-sm animate-slidedown rounded-lg hover:bg-opacity-30 transition duration-300 cursor-pointer"
                             onClick={() => {
-                            console.log('clicked song at index', index);
-                            onSelectSong(songDetail.uri, index)}
+                                console.log('clicked song at index', index);
+                                onSelectSong(songDetail.uri, index)
+                            }
                             }>
                             <div className="flex items-center">
                                 <img src={songDetail.album.images[0]?.url || './default-image.png'} alt="Album Cover" className="w-12 h-12 mr-3" />

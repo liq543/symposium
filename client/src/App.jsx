@@ -11,37 +11,30 @@ import SearchComponent from './Components/SearchComponent';
 import Login from './Components/LoginModal';
 import Signup from './Components/SignupModal';
 
-const DefaultRedirector = () => {
+
+
+
+const token = localStorage.getItem('spotify_access_token');
+export const AuthContext = createContext();
+
+function DefaultRedirector() {
     const navigate = useNavigate();
+
     React.useEffect(() => {
         navigate('/player');
     }, [navigate]);
     return null;
 };
+function App() {
 
-const token = localStorage.getItem('spotify_access_token');
-export const AuthContext = createContext();
-
-const Logout = () => {
-    const { setIsLoggedIn } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        localStorage.removeItem('spotify_access_token');
-        setIsLoggedIn(false);
-        navigate('/');
-    }, [navigate, setIsLoggedIn]);
-
-    return null;
-};
-
-const App = () => {
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentView, setCurrentView] = useState('main');
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [currentPlaylist, setCurrentPlaylist] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
+    const [navigateTo, setNavigateTo] = useState(null);
+    const [playlist, setPlaylist] = useState(null);
 
     const fetchSongDetails = async (trackId) => {
         const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
@@ -52,7 +45,6 @@ const App = () => {
         const data = await response.json();
         return data;
     };
-
     const handleSpecificSongSelect = async (songId, index = null) => {
         const newSongId = songId.split(':').pop();
         console.log("handleSpecificSongSelect called with ID:", newSongId);
@@ -100,40 +92,54 @@ const App = () => {
     };
 
 
-    const handlePlaylistClick = (playlist) => {
+    const handlePlaylistClick = (event, playlist) => {
+        event.preventDefault();
+
+        console.log('Playlist Clicked:', playlist);
         setSelectedPlaylist(playlist);
         setCurrentPlaylist(playlist);
         setCurrentView('playlist');
+        setPlaylist(true)
     };
 
     return (
-        <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
-            <Router>
-                <Routes>
-                    <Route path="/callback" element={<AuthCallback />} />
-                    <Route path="*" element={<DefaultRedirector />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                </Routes>
-            </Router>
-            <Header />
+        <Router>
+            <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+                <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
+                    <Header isLoggedIn={isLoggedIn} />
+                    <div className="flex mt-10 px-8 overflow-hidden space-x-8">
+                        <div className="w-1/4 mt-2">
+                            <SearchComponent onSongSelect={handleSongSelect} />
+                            <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                        </div>
+                        <div className="w-3/4">
+                            <Routes>
+                                <Route path="/callback" element={<AuthCallback />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/player" element={<MainView />} />
+                                <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
+                                <Route path="*" element={<DefaultRedirector />} />
+                            </Routes>
+                        </div>
+                    </div>
 
-            <div className="flex mt-2 px-8 overflow-hidden space-x-8">
-                <div className="flex flex-col space-y-4 w-1/4">
-                <SearchComponent onSongSelect={handleSongSelect} />
-                <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                    {/* <div className="flex mt-2 px-8 overflow-hidden space-x-8">
+                        <div className="flex flex-col space-y-4 w-1/4">
+                            <SearchComponent onSongSelect={handleSongSelect} />
+                            <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                        </div>
+                    </div> */}
+                    <MediaPlayer
+                        selectedSong={selectedSong}
+                        currentSongIndex={currentSongIndex}
+                        currentPlaylist={currentPlaylist}
+                        onSongChange={handleSongSelect}
+                        handleSpecificSongSelect={handleSpecificSongSelect}
+                    />
                 </div>
-                {currentView === 'main' && <MainView />}
-                {currentView === 'playlist' && <PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} />}
-            </div>
-            <MediaPlayer
-                selectedSong={selectedSong}
-                currentSongIndex={currentSongIndex}
-                currentPlaylist={currentPlaylist}
-                onSongChange={handleSongSelect}
-                handleSpecificSongSelect={handleSpecificSongSelect}
-            />
-        </div>
+            </AuthContext.Provider>
+        </Router >
     );
 }
 
