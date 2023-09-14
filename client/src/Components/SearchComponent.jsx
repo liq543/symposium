@@ -29,23 +29,23 @@ const SearchComponent = ({ onSongSelect }) => {
     };
 
     return (
-        <div className="relative mt-5">
-            <input 
+        <div className="relative mt-5 mb-6">
+            <input
                 type="text"
                 placeholder="Search for music..."
                 value={search}
                 onChange={handleSearchChange}
                 className="w-full p-4 rounded-full outline-none mb-2"
-                style={{ backgroundColor: '#4F518C' }} 
+                style={{ backgroundColor: '#4F518C' }}
             />
             {searchResults.length > 0 && (
-                <div 
+                <div
                     className="rounded-lg overflow-y-auto max-h-60 absolute w-full mt-1 border-t-0 border border-white border-opacity-20 z-10"
                     style={{ backgroundColor: '#3F408C' }}
                 >
                     {searchResults.map((song, index) => (
-                        <div 
-                            key={index} 
+                        <div
+                            key={index}
                             className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
                             onClick={() => {
                                 onSongSelect({

@@ -93,7 +93,7 @@ function App() {
 
 
     const handlePlaylistClick = (event, playlist) => {
-        event.preventDefault();
+        // event.preventDefault();
 
         console.log('Playlist Clicked:', playlist);
         setSelectedPlaylist(playlist);
@@ -107,18 +107,21 @@ function App() {
             <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
                 <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
                     <Header isLoggedIn={isLoggedIn} />
-                    <SearchComponent onSongSelect={handleSongSelect} />
                     <div className="flex mt-10 px-8 overflow-hidden space-x-8">
-                        <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
-                        <Routes>
-                            <Route path="/callback" element={<AuthCallback />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/player" element={<MainView />} />
-                            <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
-                            <Route path="*" element={<DefaultRedirector />} />
-
-                        </Routes>
+                        <div className="w-1/4 mt-2">
+                            <SearchComponent onSongSelect={handleSongSelect} />
+                            <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
+                        </div>
+                        <div className="w-3/4">
+                            <Routes>
+                                <Route path="/callback" element={<AuthCallback />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/signup" element={<Signup />} />
+                                <Route path="/player" element={<MainView />} />
+                                <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
+                                <Route path="*" element={<DefaultRedirector />} />
+                            </Routes>
+                        </div>
                     </div>
 
                     {/* <div className="flex mt-2 px-8 overflow-hidden space-x-8">

@@ -48,7 +48,7 @@ function Sidebar({ onPlaylistClick, playlist }) {
     };
 
     return (
-        <div className="space-y-6 rounded-3xl" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+        <div className="space-y-6 rounded-lg" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
             <div className="p-3 border-b border-gray-300 mb-4 flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Your Playlists</h2>
                 <button onClick={() => setIsAddingPlaylist(true)} className="bg-purple-600 text-white px-3 py-1 rounded-full">
@@ -110,6 +110,11 @@ function Sidebar({ onPlaylistClick, playlist }) {
 };
 
 export default Sidebar;
+
+
+
+
+
 
 // import React from 'react';
 
