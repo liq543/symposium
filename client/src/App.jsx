@@ -10,8 +10,6 @@ import Login from './Components/LoginModal';
 import Signup from './Components/SignupModal';
 import NewMediaPlayer from './Components/NewMediaPlayer';
 
-
-
 const token = localStorage.getItem('spotify_access_token');
 export const AuthContext = createContext();
 
@@ -110,7 +108,7 @@ function App() {
                 </div>
             </AuthContext.Provider>
         </Router >
-    );
-}
+    )
+};
 
 export default App;
