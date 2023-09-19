@@ -35,75 +35,17 @@ function App() {
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
-    const fetchSongDetails = async (trackId) => {
-        const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        const data = await response.json();
-        return data;
-    };
-    const handleSpecificSongSelect = async (songId, index = null) => {
-        const newSongId = songId.split(':').pop();
-        console.log("handleSpecificSongSelect called with ID:", newSongId);
-
-        const songData = await fetchSongDetails(newSongId);
-        console.log(songData);
-        if (songData) {
-            const selectedSong = {
-                uri: songData.uri,
-                title: songData.name,
-                artist: songData.artists[0].name,
-                duration: songData.duration_ms,
-                albumCover: songData.album.images[0]?.url || './default-image.png'
-            };
-            setSelectedSong(selectedSong);
-
-            if (index !== null) {
-                setCurrentSongIndex(index);
-            } else {
-                setCurrentSongIndex(null);
-                setCurrentPlaylist(null);
-            }
-        } else {
-            console.log('Failed to retrieve song details for ID:', songId);
-        }
-    }
-
     const handleNextSong = () => {
         if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
             const nextIndex = (currentSongIndex + 1) % currentPlaylist.length;
-            handleSpecificSongSelect(currentPlaylist[nextIndex].uri, nextIndex);
         }
     };
     
     const handlePrevSong = () => {
         if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
             const prevIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
-            handleSpecificSongSelect(currentPlaylist[prevIndex].uri, prevIndex);
         }
     };
-
-    const handleSongSelect = (songDetail, index = null) => {
-        console.log("handleSongSelect called with songDetail: ", songDetail);
-        const songData = {
-            uri: songDetail.uri,
-            title: songDetail.title,
-            artist: songDetail.artist,
-            duration: songDetail.duration,
-            albumCover: songDetail.albumCover || './default-image.png'
-        };
-        setSelectedSong(songData);
-
-        if (index !== null) {
-            setCurrentSongIndex(index);
-        } else {
-            setCurrentSongIndex(null);
-            setCurrentPlaylist(null);
-        }
-    };
-
 
     const handlePlaylistClick = (event, playlist) => {
         event.preventDefault();

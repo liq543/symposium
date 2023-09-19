@@ -41,9 +41,9 @@ async function main() {
     // Create a playlist and associate it with the user
     const playlist = await prisma.playlist.create({
         data: {
-            name: `Sample Playlist`,
-            description: `Description for sample playlist`,
-            image: 'path/to/playlist_image.jpg', // Placeholder path
+            name: `Griffin's Demos`,
+            description: `Some songs I made that are bad :).`,
+            image: 'images/bonzi.png', // Placeholder path
             user: {
                 connect: {
                     id: user.id
