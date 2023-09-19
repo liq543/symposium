@@ -26,16 +26,12 @@ function DefaultRedirector() {
 };
 function App() {
 
-function App() {
-
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentView, setCurrentView] = useState('main');
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [currentPlaylist, setCurrentPlaylist] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
-    const [navigateTo, setNavigateTo] = useState(null);
-    const [playlist, setPlaylist] = useState(null);
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
@@ -75,6 +71,20 @@ function App() {
         }
     }
 
+    const handleNextSong = () => {
+        if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
+            const nextIndex = (currentSongIndex + 1) % currentPlaylist.length;
+            handleSpecificSongSelect(currentPlaylist[nextIndex].uri, nextIndex);
+        }
+    };
+    
+    const handlePrevSong = () => {
+        if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
+            const prevIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+            handleSpecificSongSelect(currentPlaylist[prevIndex].uri, prevIndex);
+        }
+    };
+
     const handleSongSelect = (songDetail, index = null) => {
         console.log("handleSongSelect called with songDetail: ", songDetail);
         const songData = {
@@ -95,10 +105,6 @@ function App() {
     };
 
 
-    const handlePlaylistClick = (event, playlist) => {
-        event.preventDefault();
-
-        console.log('Playlist Clicked:', playlist);
     const handlePlaylistClick = (event, playlist) => {
         event.preventDefault();
 
@@ -138,7 +144,10 @@ function App() {
                         </div>
                     </div> */}
                     <NewMediaPlayer
-
+                    currentSongIndex={currentSongIndex}
+                    playlist={currentPlaylist}
+                    onNextSong={handleNextSong}
+                    onPrevSong={handlePrevSong}
                     />
                 </div>
             </AuthContext.Provider>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MediaPlayer = () => {
+const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
     const [song, setSong] = useState(null);
@@ -51,6 +51,18 @@ const MediaPlayer = () => {
         setIsPlaying(!isPlaying);
     };
 
+    const handleNextSong = () => {
+        if (onNextSong) {
+            onNextSong();
+        }
+    };
+
+    const handlePrevSong = () => {
+        if (onPrevSong) {
+            onPrevSong();
+        }
+    };
+
     const handleProgressBarClick = (e) => {
         const progressBarWidth = e.currentTarget.offsetWidth;
         const clickPositionInPixels = e.nativeEvent.offsetX;
@@ -82,10 +94,18 @@ const MediaPlayer = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-                <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
-                    <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
-                </button>
-            </div>
+    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handlePrevSong}>
+        <span className="material-icons text-white">skip_previous</span>
+    </button>
+
+    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
+        <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
+    </button>
+
+    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handleNextSong}>
+        <span className="material-icons text-white">skip_next</span>
+    </button>
+</div>
 
             <div className="flex items-center w-3/4 mt-2 mb-4">
                 <div className="relative w-full h-2 bg-gray-600 rounded" onClick={handleProgressBarClick}>

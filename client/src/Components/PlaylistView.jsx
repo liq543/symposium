@@ -13,23 +13,15 @@ const PlaylistView = ({ playlist, onSelectSong, currentView, setCurrentView }) =
         if (!playlist) {
             return;
         }
-        console.log('Playlist in useEffect:', playlist);
         setCurrentView('playlist');
 
         const fetchSongDetails = async () => {
-            const token = localStorage.getItem('spotify_access_token');
-            const songURIs = playlist.songs.join(',');
             try {
-                const response = await fetch(`https://api.spotify.com/v1/tracks?ids=${songURIs}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+                const response = await fetch(`http://localhost:3001/api/playlists/${playlist.id}`);
                 const data = await response.json();
-                console.log("Spotify API Response:", data);
-                setSongsDetail(data.tracks.filter(Boolean));
+                setSongsDetail(data.playlistSongs.map(ps => ps.song)); // Extracting songs from playlistSongs property
             } catch (error) {
-                console.error("Error fetching song details", error);
+                console.error('Error fetching song details:', error);
             }
         };
 
@@ -66,13 +58,13 @@ const PlaylistView = ({ playlist, onSelectSong, currentView, setCurrentView }) =
                             }
                             }>
                             <div className="flex items-center">
-                                <img src={songDetail.album.images[0]?.url || './default-image.png'} alt="Album Cover" className="w-12 h-12 mr-3" />
+                                <img src={songDetail.albumImage || './default-image.png'} alt="Album Cover" className="w-12 h-12 mr-3" />
                                 <div>
-                                    <span className="text-lg block font-semibold text-white opacity-80">{songDetail.name}</span>
-                                    <span className="text-sm text-gray-300 opacity-80">{songDetail.artists[0].name}</span>
+                                    <span className="text-lg block font-semibold text-white opacity-80">{songDetail.title}</span>
+                                    <span className="text-sm text-gray-300 opacity-80">{songDetail.artist}</span>
                                 </div>
                             </div>
-                            <span className="text-sm text-white opacity-60">{formatDuration(songDetail.duration_ms)}</span>
+                            <span className="text-sm text-white opacity-60">{formatDuration(songDetail.duration)}</span>
                         </div>
                     );
                 })}

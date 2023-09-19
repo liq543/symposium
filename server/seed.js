@@ -32,7 +32,7 @@ async function main() {
             title: 'Hills',
             artist: 'Griffin Gore',
             file: 'songs/hills.mp3',
-            duration: 570000,
+            duration: 57000,
             album: `Griffin's songs`,
             albumImage: 'images/bonzi.png',
         }
