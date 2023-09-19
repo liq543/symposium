@@ -1,4 +1,6 @@
 // Requiring Express, the Apollo Server for GraphQL, and the authentication middleware
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
@@ -29,6 +31,32 @@ app.use('/', routes);
 app.use('/songs', express.static(path.join(__dirname, 'songs')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/songs', songsRouter);
+app.get('/api/playlists', async (req, res) => {
+  try {
+    const playlists = await prisma.playlist.findMany({
+      include: {
+        playlistSongs: {
+          include: {
+            song: true,
+          },
+        },
+      },
+    });
+
+    // Transform the data to have songs directly under each playlist
+    const transformedPlaylists = playlists.map(playlist => {
+      return {
+        ...playlist,
+        songs: playlist.playlistSongs.map(playlistSong => playlistSong.song),
+      };
+    });
+
+    res.json(transformedPlaylists);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error fetching playlists" });
+  }
+});
 
 
 // Serve up static assets
