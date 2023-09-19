@@ -30,7 +30,7 @@ function App() {
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
     const [navigateTo, setNavigateTo] = useState(null);
-    const [playlist, setPlaylist] = useState(null);
+    const [playlist, setPlaylist] = useState([]);
 
     const handleSongSelect = (songId) => {
         fetch(`http://localhost:3001/api/songs/${songId}`)
@@ -44,17 +44,18 @@ function App() {
           });
       };
 
-    const handleNextSong = () => {
-        if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
-            const nextIndex = (currentSongIndex + 1) % currentPlaylist.length;
+      const handleNextSong = () => {
+        if (currentSongIndex !== null && playlist && playlist.length > 0) {
+            const nextIndex = (currentSongIndex + 1) % playlist.length;
             setCurrentSongIndex(nextIndex);
-            handleSongSelect(playlist[nextIndex].id); // Fetch the next song from your backend.
+            handleSongSelect(playlist[nextIndex].id);
         }
     };
     
+    
     const handlePrevSong = () => {
-        if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
-            const prevIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+        if (currentSongIndex !== null && playlist && playlist.length > 0) {
+            const prevIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
             setCurrentSongIndex(prevIndex);
             handleSongSelect(playlist[prevIndex].id); // Fetch the previous song from your backend.
         }
@@ -67,7 +68,7 @@ function App() {
         setSelectedPlaylist(playlist);
         setCurrentPlaylist(playlist);
         setCurrentView('playlist');
-        setPlaylist(true)
+        setPlaylist(playlist.songs);
     };
 
 
@@ -98,13 +99,14 @@ function App() {
                             <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                         </div>
                     </div> */}
-                    <NewMediaPlayer
-                    currentSongIndex={currentSongIndex}
-                    playlist={currentPlaylist}
-                    onNextSong={handleNextSong}
-                    onPrevSong={handlePrevSong}
-                    handleSongSelect={handleSongSelect}
-                    />
+<NewMediaPlayer
+    currentSong={selectedSong} // Add this
+    currentSongIndex={currentSongIndex}
+    playlist={currentPlaylist}
+    onNextSong={handleNextSong}
+    onPrevSong={handlePrevSong}
+    handleSongSelect={handleSongSelect}
+/>
                 </div>
             </AuthContext.Provider>
         </Router >

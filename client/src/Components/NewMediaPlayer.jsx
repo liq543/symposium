@@ -1,16 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handleSongSelect }) => {
+const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handleSongSelect, currentSong }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
-    const [song, setSong] = useState(null);
+    const defaultSong = {
+        title: 'No Song Selected',
+        artist: 'No Song Selected',
+        albumImage: '/images/sc.png',  // This is assuming your public directory structure
+        duration: 0,
+        file: ''  // No default file since there's no audio to play
+    };
+    
+    const [song, setSong] = useState(defaultSong);
     const audioRef = useRef(null);
 
+    
+
     useEffect(() => {
-        if (currentSongIndex !== null && playlist) {
-          handleSongSelect(playlist[currentSongIndex].id);
-        }
+        if (currentSongIndex !== null && playlist && currentSongIndex < playlist.length) {
+            handleSongSelect(playlist[currentSongIndex].id);
+          }
       }, [currentSongIndex, playlist]);
+
+    useEffect(() => {
+        if (currentSong) {
+            setSong(currentSong);
+        }
+    }, [currentSong]);
 
     useEffect(() => {
         if (audioRef.current) {
