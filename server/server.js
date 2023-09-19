@@ -5,6 +5,8 @@ const path = require('path');
 const { authMiddleware } = require('./utils/auth');
 const cors = require('cors');
 const routes = require('./routes/route');
+var songsRouter = require('./routes/songs');
+
 
 // Requiring the schemas and connecting to our database
 const { typeDefs, resolvers } = require('./schemas');
@@ -24,6 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use('/', routes);
+app.use('/songs', express.static(path.join(__dirname, 'songs')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/api/songs', songsRouter);
 
 
 // Serve up static assets

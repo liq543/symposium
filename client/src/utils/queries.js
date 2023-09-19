@@ -1,5 +1,7 @@
+// Import Apollo GraphQL
 import { gql } from '@apollo/client';
 
+// Query to GET one user
 export const QUERY_USER = gql`
     query getUser {
         user {
@@ -11,6 +13,7 @@ export const QUERY_USER = gql`
     }
 `;
 
+// Query to GET all playlists
 export const QUERY_PLAYLISTS = gql`
     query getAllPlaylists {
         playlists {
@@ -20,6 +23,7 @@ export const QUERY_PLAYLISTS = gql`
     }
 `;
 
+// Query to GET only one playlist by its ID
 export const QUERY_PLAYLIST = gql`
     query getOnePlaylist {
         playlist(_id: $id) {
@@ -29,6 +33,7 @@ export const QUERY_PLAYLIST = gql`
     }
 `;
 
+// Query to GET all songs
 export const QUERY_SONGS = gql`
     query getAllSongs {
         songs {
@@ -40,6 +45,7 @@ export const QUERY_SONGS = gql`
     }
 `;
 
+// Query to GET one song by its ID
 export const QUERY_SONG = gql`
     query getOneSong {
         song(_id: $id) {
