@@ -26,12 +26,16 @@ function DefaultRedirector() {
 };
 function App() {
 
+function App() {
+
     const [selectedSong, setSelectedSong] = useState(null);
     const [currentView, setCurrentView] = useState('main');
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [currentPlaylist, setCurrentPlaylist] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('spotify_access_token'));
+    const [navigateTo, setNavigateTo] = useState(null);
+    const [playlist, setPlaylist] = useState(null);
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
@@ -91,6 +95,10 @@ function App() {
     };
 
 
+    const handlePlaylistClick = (event, playlist) => {
+        event.preventDefault();
+
+        console.log('Playlist Clicked:', playlist);
     const handlePlaylistClick = (event, playlist) => {
         event.preventDefault();
 

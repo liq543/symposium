@@ -7,7 +7,7 @@ As a team of web developers, it's important to show that we thoroughly understan
 ## Installation
 
 You can find Symposium on Heroku at the link below:
-[Insert Heroku Link Here]
+https://jeff-mcmillen-symposium-64bfd8c077d1.herokuapp.com/
 
 ## Usage
 
