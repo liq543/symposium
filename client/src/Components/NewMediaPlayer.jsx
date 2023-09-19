@@ -1,22 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong }) => {
+const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handleSongSelect }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
     const [song, setSong] = useState(null);
     const audioRef = useRef(null);
 
     useEffect(() => {
-        // Fetch song data from the server
-        fetch("http://localhost:3001/api/songs/65095e5aca85f004b65442bf")
-            .then(response => response.json())
-            .then(data => {
-                setSong(data);
-            })
-            .catch(error => {
-                console.error("Error fetching song data:", error);
-            });
-    }, []);
+        if (currentSongIndex !== null && playlist) {
+          handleSongSelect(playlist[currentSongIndex].id);
+        }
+      }, [currentSongIndex, playlist]);
 
     useEffect(() => {
         if (audioRef.current) {
@@ -62,6 +56,8 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong }) => 
             onPrevSong();
         }
     };
+
+    
 
     const handleProgressBarClick = (e) => {
         const progressBarWidth = e.currentTarget.offsetWidth;

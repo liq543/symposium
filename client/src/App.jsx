@@ -3,7 +3,6 @@ import 'tailwindcss/tailwind.css';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import Header from './Components/Header';
 import Sidebar from './Components/Sidebar';
-import MainView from './Components/MainView';
 import AuthCallback from './Components/AuthCallback';
 import PlaylistView from './Components/PlaylistView';
 import SearchComponent from './Components/SearchComponent';
@@ -20,7 +19,7 @@ function DefaultRedirector() {
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        navigate('/player');
+        navigate('/playlist');
     }, [navigate]);
     return null;
 };
@@ -35,15 +34,31 @@ function App() {
     const [navigateTo, setNavigateTo] = useState(null);
     const [playlist, setPlaylist] = useState(null);
 
+    const handleSongSelect = (songId) => {
+        fetch(`http://localhost:3001/api/songs/${songId}`)
+          .then(response => response.json())
+          .then(data => {
+            setSelectedSong(data);
+            setCurrentSongIndex(playlist.findIndex(item => item.id === data.id)); // Update index when a song is selected.
+          })
+          .catch(error => {
+            console.error("Error fetching song data:", error);
+          });
+      };
+
     const handleNextSong = () => {
         if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
             const nextIndex = (currentSongIndex + 1) % currentPlaylist.length;
+            setCurrentSongIndex(nextIndex);
+            handleSongSelect(playlist[nextIndex].id); // Fetch the next song from your backend.
         }
     };
     
     const handlePrevSong = () => {
         if (currentSongIndex !== null && currentPlaylist && currentPlaylist.length > 0) {
             const prevIndex = (currentSongIndex - 1 + currentPlaylist.length) % currentPlaylist.length;
+            setCurrentSongIndex(prevIndex);
+            handleSongSelect(playlist[prevIndex].id); // Fetch the previous song from your backend.
         }
     };
 
@@ -56,6 +71,7 @@ function App() {
         setCurrentView('playlist');
         setPlaylist(true)
     };
+
 
     return (
         <Router>
@@ -72,8 +88,7 @@ function App() {
                                 <Route path="/callback" element={<AuthCallback />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/signup" element={<Signup />} />
-                                <Route path="/player" element={<MainView />} />
-                                <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSpecificSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
+                                <Route path="/playlist" element={<PlaylistView playlist={selectedPlaylist} onSelectSong={handleSongSelect} currentView={currentView} setCurrentView={setCurrentView} />} />
                                 <Route path="*" element={<DefaultRedirector />} />
                             </Routes>
                         </div>
@@ -90,6 +105,7 @@ function App() {
                     playlist={currentPlaylist}
                     onNextSong={handleNextSong}
                     onPrevSong={handlePrevSong}
+                    handleSongSelect={handleSongSelect}
                     />
                 </div>
             </AuthContext.Provider>
