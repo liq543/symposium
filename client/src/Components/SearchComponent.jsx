@@ -15,16 +15,15 @@ const SearchComponent = ({ onSongSelect }) => {
     };
 
     const fetchSongs = async (query) => {
-        const token = localStorage.getItem('spotify_access_token');
+        // const token = localStorage.getItem('spotify_access_token');
         try {
-            const response = await axios.get(`https://api.spotify.com/v1/search?q=${query}&type=track&limit=5`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
+            const response = await axios.get(`http://localhost:3001/api/songs/`, {
+
             });
-            setSearchResults(response.data.tracks.items);
+            console.log(response);
+            setSearchResults(response.data);
         } catch (error) {
-            console.error('Error fetching songs from Spotify:', error);
+            console.error('Error fetching songs:', error);
         }
     };
 
@@ -49,16 +48,15 @@ const SearchComponent = ({ onSongSelect }) => {
                             className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
                             onClick={() => {
                                 onSongSelect({
-                                    title: song.name,
-                                    artist: song.artists[0].name,
-                                    albumCover: song.album.images[0].url,
-                                    uri: song.uri,
-                                    duration: song.duration_ms
+                                    title: song.title,
+                                    artist: song.artist,
+                                    albumCover: song.albumImage,
+                                    duration: song.duration
                                 });
                                 setSearchResults([]);  // This will clear the search results and close the dropdown
                             }}
                         >
-                            {song.name} - {song.artists[0].name}
+                            {song.title} - {song.artist}
                         </div>
                     ))}
                 </div>
