@@ -147,7 +147,9 @@ const handleProgressBarClick = (e) => {
 const songProgressPercentage = selectedSong ? (currentPlaybackTime / selectedSong.duration) * 100 : 0;
 
 return (
-  <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4 z-10" style={{ backgroundColor: '#4F518C' }}>
+  <div className="fixed bottom-0 left-0 right-0 p-4 z-10 flex flex-col items-stretch" style={{ backgroundColor: '#4F518C' }}>
+    {/* Top section with song info and controls */}
+    <div className="flex items-center justify-between mb-4">
       {/* Album Cover and Song Details */}
       <div className="flex items-center space-x-4">
           <img src={selectedSong ? selectedSong.albumCover : './sc.png'} alt="Album Cover" className="w-12 h-12 rounded-md" />
@@ -171,30 +173,31 @@ return (
               <span className="material-icons text-white">skip_next</span>
           </button>
       </div>
-
-      {/* Progress Bar */}
-      <div className="flex items-center w-3/4 mt-2 mb-4">
-    <div className="relative w-full h-2 bg-gray-600 rounded" onClick={handleProgressBarClick}>
-        <div className="absolute top-0 left-0 h-2 bg-white rounded" style={{ width: `${songProgressPercentage}%` }}></div>
     </div>
-    <div className="ml-2 text-gray-400" style={{ fontSize: '0.7rem' }}>
-        {formatTime(currentPlaybackTime)}/{selectedSong ? formatTime(selectedSong.duration) : '0:00'}
-    </div>
-</div>
 
-      {/* Volume Slider */}
-      <div className="flex items-center space-x-4">
-          <span className="material-icons text-gray-400">volume_down</span>
-          <input
-              type="range"
-              min="0"
-              max="100"
-              value={volume}
-              onChange={e => setVolume(e.target.value)}
-              className="w-16 h-4 rounded-full bg-gray-300 appearance-none"
-          />
-          <span className="material-icons text-gray-400">volume_up</span>
+    {/* Progress Bar */}
+    <div className="flex items-center mb-4">
+      <div className="relative w-full h-2 bg-gray-600 rounded" onClick={handleProgressBarClick}>
+          <div className="absolute top-0 left-0 h-2 bg-white rounded" style={{ width: `${songProgressPercentage}%` }}></div>
       </div>
+      <div className="ml-2 text-gray-400" style={{ fontSize: '0.7rem' }}>
+          {formatTime(currentPlaybackTime)}/{selectedSong ? formatTime(selectedSong.duration) : '0:00'}
+      </div>
+    </div>
+
+    {/* Volume Slider */}
+    <div className="flex items-center">
+        <span className="material-icons text-gray-400">volume_down</span>
+        <input
+            type="range"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={e => setVolume(e.target.value)}
+            className="w-16 h-4 rounded-full bg-gray-300 appearance-none mx-2 flex-grow"
+        />
+        <span className="material-icons text-gray-400">volume_up</span>
+    </div>
   </div>
 );
 };

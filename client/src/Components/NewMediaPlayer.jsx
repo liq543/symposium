@@ -6,21 +6,19 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
     const defaultSong = {
         title: 'No Song Selected',
         artist: 'No Song Selected',
-        albumImage: '/images/sc.png',  // This is assuming your public directory structure
+        albumImage: '/images/sc.png',
         duration: 0,
-        file: ''  // No default file since there's no audio to play
+        file: ''
     };
-    
     const [song, setSong] = useState(defaultSong);
     const audioRef = useRef(null);
-
-    
+    const [volume, setVolume] = useState(1);
 
     useEffect(() => {
         if (currentSongIndex !== null && playlist && currentSongIndex < playlist.length) {
             handleSongSelect(playlist[currentSongIndex].id);
-          }
-      }, [currentSongIndex, playlist]);
+        }
+    }, [currentSongIndex, playlist]);
 
     useEffect(() => {
         if (currentSong) {
@@ -30,7 +28,6 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
 
     useEffect(() => {
         if (audioRef.current) {
-            // Define the event listeners
             const updateTime = () => {
                 setCurrentPlaybackTime(audioRef.current.currentTime * 1000);
             };
@@ -50,7 +47,13 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
                 audioRef.current.removeEventListener('loadedmetadata', loadMetadata);
             };
         }
-    }, [song]);  // add song as dependency so it re-runs the effect when song changes
+    }, [song]);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume;
+        }
+    }, [volume]);
 
     const playPause = () => {
         if (isPlaying) {
@@ -72,8 +75,6 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
             onPrevSong();
         }
     };
-
-    
 
     const handleProgressBarClick = (e) => {
         const progressBarWidth = e.currentTarget.offsetWidth;
@@ -106,25 +107,38 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
             </div>
 
             <div className="flex items-center space-x-4">
-    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handlePrevSong}>
-        <span className="material-icons text-white">skip_previous</span>
-    </button>
+                <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handlePrevSong}>
+                    <span className="material-icons text-white">skip_previous</span>
+                </button>
 
-    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
-        <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
-    </button>
+                <button className="p-4 hover:bg-DABFFF rounded-full" onClick={playPause}>
+                    <span className="material-icons text-white">{isPlaying ? 'pause' : 'play_arrow'}</span>
+                </button>
 
-    <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handleNextSong}>
-        <span className="material-icons text-white">skip_next</span>
-    </button>
-</div>
+                <button className="p-4 hover:bg-DABFFF rounded-full" onClick={handleNextSong}>
+                    <span className="material-icons text-white">skip_next</span>
+                </button>
+            </div>
 
-            <div className="flex items-center w-3/4 mt-2 mb-4">
+            <div className="flex items-center w-3/4 mt-2 mb-4 space-x-4">
                 <div className="relative w-full h-2 bg-gray-600 rounded" onClick={handleProgressBarClick}>
                     <div className="absolute top-0 left-0 h-2 bg-white rounded" style={{ width: `${songProgressPercentage}%` }}></div>
                 </div>
                 <div className="ml-2 text-gray-400" style={{ fontSize: '0.7rem' }}>
                     {formatTime(currentPlaybackTime)}/{formatTime(song.duration)}
+                </div>
+                
+                <div className="flex items-center space-x-2">
+                    <span className="material-icons text-white">volume_down</span>
+                    <input 
+                        type="range" 
+                        min="0" 
+                        max="1" 
+                        step="0.01"
+                        value={volume} 
+                        onChange={e => setVolume(parseFloat(e.target.value))}
+                        className="w-20" />
+                    <span className="material-icons text-white">volume_up</span>
                 </div>
             </div>
             <audio ref={audioRef} src={song.file} preload="metadata"></audio>
