@@ -33,7 +33,7 @@ function App() {
     const [playlist, setPlaylist] = useState([]);
 
     const handleSongSelect = (songId) => {
-        fetch(`http://localhost:3001/api/songs/${songId}`)
+        fetch(`/api/songs/${songId}`)
           .then(response => response.json())
           .then(data => {
             setSelectedSong(data);
