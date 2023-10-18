@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+const PORT = process.env.PORT || 3001;
+
 const formatDuration = (milliseconds) => {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -17,7 +19,7 @@ const PlaylistView = ({ playlist, onSelectSong, currentView, setCurrentView }) =
 
         const fetchSongDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/api/playlists/${playlist.id}`);
+                const response = await fetch(`http://localhost:${PORT}/api/playlists/${playlist.id}`);
                 const data = await response.json();
                 setSongsDetail(data.playlistSongs.map(ps => ps.song)); // Extracting songs from playlistSongs property
             } catch (error) {
