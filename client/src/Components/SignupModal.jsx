@@ -6,7 +6,7 @@ function SignupModal({ onClose }) {
 
     const handleSignup = async () => {
         try {
-            const response = await fetch('http://localhost:3001/signup', {
+            const response = await fetch('/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
