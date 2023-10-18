@@ -97,12 +97,12 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
     }
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-4 space-x-4 z-10" style={{ backgroundColor: '#4F518C' }}>
+        <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between p-2 space-x-4 z-10" style={{ backgroundColor: '#4F518C' }}>
             <div className="flex items-center space-x-4">
-                <img src={song.albumImage} alt="Album Cover" className="w-12 h-12 rounded-md" />
+                <img src={song.albumImage} alt="Album Cover" className="w-10 h-10 rounded-md" />
                 <div>
-                    <h4 className="text-white font-medium">{song.title}</h4>
-                    <p className="text-gray-400">{song.artist}</p>
+                    <h4 className="text-white font-medium text-sm">{song.title}</h4>
+                    <p className="text-gray-400 text-xs">{song.artist}</p>
                 </div>
             </div>
 
