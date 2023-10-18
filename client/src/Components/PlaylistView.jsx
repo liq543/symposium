@@ -19,7 +19,7 @@ const PlaylistView = ({ playlist, onSelectSong, currentView, setCurrentView }) =
 
         const fetchSongDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:${PORT}/api/playlists/${playlist.id}`);
+                const response = await fetch(`/api/playlists/${playlist.id}`);
                 const data = await response.json();
                 setSongsDetail(data.playlistSongs.map(ps => ps.song)); // Extracting songs from playlistSongs property
             } catch (error) {
