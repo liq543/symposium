@@ -28,7 +28,7 @@ const SearchComponent = ({ onSongSelect }) => {
     };
 
     return (
-        <div className="relative mt-5 mb-6">
+        <div className="relative mb-6">
             <input
                 type="text"
                 placeholder="Search for music..."

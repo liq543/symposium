@@ -45,14 +45,14 @@ function Sidebar({ onPlaylistClick }) {
     };
 
     return (
-        <div className="space-y-6 rounded-lg" style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
-            <div className="p-3 border-b border-gray-300 mb-4 flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Your Playlists</h2>
-                <button onClick={() => setIsAddingPlaylist(true)} className="bg-purple-600 text-white px-3 py-1 rounded-full">
+        <div className="space-y-6 rounded-lg bg-gray-800 p-3 sm:p-4 md:p-6 lg:p-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-gray-400 pb-3">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">Your Playlists</h2>
+                <button onClick={() => setIsAddingPlaylist(true)} className="bg-purple-600 text-white px-4 py-2 rounded-full text-lg">
                     +
                 </button>
             </div>
-
+    
             {isAddingPlaylist && (
                 <div className="p-3 mb-4 space-y-2">
                     <input
@@ -86,24 +86,22 @@ function Sidebar({ onPlaylistClick }) {
                     </div>
                 </div>
             )}
-
+    
             {playlists.map((playlist, index) => (
                 <div
                     key={index}
-                    className="flex items-center space-x-4 text-lg p-3 hover:bg-white hover:bg-opacity-20 backdrop-blur-sm rounded-lg cursor-pointer transition duration-300"
+                    className="flex items-center space-x-2 sm:space-x-4 text-lg p-2 sm:p-3 hover:bg-gray-700 rounded-lg cursor-pointer transition duration-300"
                     onClick={(event) => {
-                        onPlaylistClick(event, playlist)
+                        onPlaylistClick(event, playlist);
                         navigate('/playlist');
-                    }
-                    }
+                    }}
                 >
-                    <img src={playlist.image} alt={playlist.name} className="w-12 h-12 rounded" />
-                    <span>{playlist.name}</span>
+                    <img src={playlist.image} alt={playlist.name} className="w-10 h-10 sm:w-12 sm:h-12 rounded" />
+                    <span className="text-sm sm:text-lg">{playlist.name}</span>
                 </div>
-            ))
-            }
-        </div >
-    );
+            ))}
+        </div>
+    );    
 };
 
 export default Sidebar;

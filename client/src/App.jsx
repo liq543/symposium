@@ -78,7 +78,7 @@ function App() {
                 <div style={{ backgroundColor: '#2C2A4A' }} className="h-screen text-white overflow-hidden">
                     <Header isLoggedIn={isLoggedIn} />
                     <div className="flex mt-10 px-8 overflow-hidden space-x-8">
-                        <div className="w-1/4 mt-2">
+                        <div className="w-1/4">
                             <SearchComponent onSongSelect={handleSongSelect} />
                             <Sidebar onSongSelect={handleSongSelect} onPlaylistClick={handlePlaylistClick} />
                         </div>
