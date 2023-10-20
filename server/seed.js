@@ -21,7 +21,7 @@ async function main() {
             file: 'songs/travel_2.mp3',
             duration: 113000,
             album: `Griffin's Songs`,
-            albumImage: 'images/bonzi.png',
+            albumImage: 'images/tavel.png',
         }
     });
 
@@ -34,7 +34,7 @@ async function main() {
             file: 'songs/hills.mp3',
             duration: 57000,
             album: `Griffin's songs`,
-            albumImage: 'images/bonzi.png',
+            albumImage: 'images/hills.png',
         }
     });
 
