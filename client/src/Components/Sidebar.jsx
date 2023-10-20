@@ -45,7 +45,7 @@ function Sidebar({ onPlaylistClick }) {
     };
 
     return (
-        <div className="space-y-6 rounded-lg bg-gray-800 p-3 sm:p-4 md:p-6 lg:p-8">
+        <div className="space-y-6 rounded-lg bg-gray-800 p-3">
             <div className="flex flex-col sm:flex-row justify-between items-center mb-4 border-b border-gray-400 pb-3">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold">Your Playlists</h2>
                 <button onClick={() => setIsAddingPlaylist(true)} className="bg-purple-600 text-white px-4 py-2 rounded-full text-lg">
@@ -101,7 +101,8 @@ function Sidebar({ onPlaylistClick }) {
                 </div>
             ))}
         </div>
-    );    
+    );
+    
 };
 
 export default Sidebar;

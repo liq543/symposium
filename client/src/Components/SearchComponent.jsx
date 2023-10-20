@@ -47,12 +47,7 @@ const SearchComponent = ({ onSongSelect }) => {
                             key={index}
                             className="text-lg p-3 hover:bg-purple-700 rounded-lg cursor-pointer transition duration-300"
                             onClick={() => {
-                                onSongSelect({
-                                    title: song.title,
-                                    artist: song.artist,
-                                    albumCover: song.albumImage,
-                                    duration: song.duration
-                                });
+                                onSongSelect(song.id);
                                 setSearchResults([]);  // This will clear the search results and close the dropdown
                             }}
                         >

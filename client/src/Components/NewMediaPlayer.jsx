@@ -23,8 +23,27 @@ const MediaPlayer = ({ currentSongIndex, playlist, onNextSong, onPrevSong, handl
     useEffect(() => {
         if (currentSong) {
             setSong(currentSong);
+    
+            // Wait for the audio file to be loaded before starting playback
+            const audioElement = audioRef.current;
+            const handleCanPlay = () => {
+                audioElement.play();
+                setIsPlaying(true);
+            };
+    
+            audioElement.addEventListener('canplay', handleCanPlay);
+            
+            // Start playing if audio is already ready
+            if (audioElement.readyState >= 2) {
+                audioElement.play();
+                setIsPlaying(true);
+            }
+    
+            return () => {
+                audioElement.removeEventListener('canplay', handleCanPlay);
+            };
         }
-    }, [currentSong]);
+    }, [currentSong]);    
 
     useEffect(() => {
         if (audioRef.current) {
