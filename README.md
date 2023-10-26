@@ -12,7 +12,7 @@ Node.js and Express form the backbone of the backend, handling server-side logic
 
 ## Installation
 
-You can find Symposium on Heroku at the link below:
+You can find Symposium on Heroku at this link:
 https://symposium-new-6f0bf4e41ecb.herokuapp.com/
 
 or
