@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
+require('dotenv').config()
 async function main() {
 
     // Create a user
